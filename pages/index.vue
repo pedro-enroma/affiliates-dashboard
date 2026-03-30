@@ -75,6 +75,7 @@ const { fetchDailyTraffic, fetchDailyEvents, aggregateTraffic } = useTraffic()
 const { fetchBookings, fetchAllBookings, calculateCommission } = useEarnings()
 const { fetchCampaigns } = useCampaigns()
 const { getPreviousPeriod, percentChange, getTopCampaigns, getTopDestination } = useDashboardStats()
+const { affiliate } = useAffiliate()
 
 const trafficData = ref<DailyTraffic[]>([])
 const eventsData = ref<DailyEvent[]>([])
@@ -147,16 +148,19 @@ const topDest = computed(() =>
 )
 
 async function loadData() {
+  const aid = affiliate.value?.affiliate_id
+  if (!aid) return
+
   const prevRange = getPreviousPeriod(range.value)
 
   const [traffic, events, bk, allBk, camp, prevTraffic, prevBk] = await Promise.all([
-    fetchDailyTraffic(range.value),
-    fetchDailyEvents(range.value),
-    fetchBookings(range.value),
-    fetchAllBookings(range.value),
-    fetchCampaigns(),
-    fetchDailyTraffic(prevRange),
-    fetchBookings(prevRange),
+    fetchDailyTraffic(range.value, aid),
+    fetchDailyEvents(range.value, aid),
+    fetchBookings(range.value, aid),
+    fetchAllBookings(range.value, aid),
+    fetchCampaigns(aid),
+    fetchDailyTraffic(prevRange, aid),
+    fetchBookings(prevRange, aid),
   ])
 
   trafficData.value = traffic
@@ -168,5 +172,5 @@ async function loadData() {
   prevBookings.value = prevBk
 }
 
-watch(range, loadData, { immediate: true })
+watch([range, () => affiliate.value?.affiliate_id], loadData, { immediate: true })
 </script>
