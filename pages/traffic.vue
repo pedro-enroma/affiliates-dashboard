@@ -45,7 +45,7 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container-low/50">
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Traffic Date</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Sessions</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Users</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">New Users</th>
@@ -58,7 +58,7 @@
               :key="row.date"
               :class="['hover:bg-primary-container/5 transition-colors', i % 2 === 1 ? 'bg-surface-container-low/30' : '']"
             >
-              <td class="px-8 py-5 text-sm">{{ row.date }}</td>
+              <td class="px-8 py-5 text-sm">{{ formatDate(row.date) }}</td>
               <td class="px-8 py-5 text-sm text-right font-semibold">{{ row.sessions.toLocaleString() }}</td>
               <td class="px-8 py-5 text-sm text-right">{{ row.users.toLocaleString() }}</td>
               <td class="px-8 py-5 text-sm text-right">{{ row.newUsers.toLocaleString() }}</td>
@@ -76,6 +76,7 @@ import type { DailyTraffic } from '~/types'
 
 const { range } = useDateRange()
 const { affiliate } = useAffiliate()
+const { formatDate } = useFormatDate()
 const { fetchDailyTraffic, fetchDemographics, aggregateDemographics } = useTraffic()
 
 const trafficData = ref<DailyTraffic[]>([])

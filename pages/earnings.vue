@@ -48,7 +48,8 @@
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container-low/50">
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Travel Date</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking Date</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Tour</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Price</th>
               <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Commission</th>
@@ -61,7 +62,8 @@
               :key="b.id"
               :class="['hover:bg-primary-container/5 transition-colors', i % 2 === 1 ? 'bg-surface-container-low/30' : '']"
             >
-              <td class="px-8 py-5 text-sm">{{ b.start_date_time?.slice(0, 10) }}</td>
+              <td class="px-8 py-5 text-sm">{{ formatDate(b.start_date_time) }}</td>
+              <td class="px-8 py-5 text-sm text-on-surface-variant">{{ formatDate(b.created_at) }}</td>
               <td class="px-8 py-5 text-sm font-semibold text-on-surface max-w-[250px] truncate">{{ b.product_title }}</td>
               <td class="px-8 py-5 text-sm text-right">{{ formatCurrency(b.total_price) }}</td>
               <td class="px-8 py-5 text-sm text-right font-bold text-primary">{{ formatCurrency(b.affiliate_commission || 0) }}</td>
@@ -80,6 +82,7 @@ import type { ActivityBooking } from '~/types'
 const { range } = useDateRange()
 const { affiliate, commissionRate } = useAffiliate()
 const { fetchBookings, summarizeByMonth } = useEarnings()
+const { formatDate } = useFormatDate()
 
 const bookings = ref<ActivityBooking[]>([])
 const monthlySummary = computed(() => summarizeByMonth(bookings.value))

@@ -104,7 +104,7 @@
         </div>
         <div class="flex justify-between py-2">
           <dt class="text-on-surface-variant font-semibold">Member since</dt>
-          <dd class="text-on-surface">{{ affiliate?.created_at?.split('T')[0] }}</dd>
+          <dd class="text-on-surface">{{ formatDate(affiliate?.created_at || '') }}</dd>
         </div>
       </dl>
     </div>
@@ -114,6 +114,7 @@
 <script setup lang="ts">
 const client = useSupabaseClient()
 const { affiliate, commissionRate, fetchProfile } = useAffiliate()
+const { formatDate } = useFormatDate()
 
 // Profile form
 const profileForm = reactive({

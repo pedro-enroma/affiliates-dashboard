@@ -8,7 +8,8 @@
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-surface-container-low/50">
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Travel Date</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking Date</th>
             <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Tour Name</th>
             <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Price (EUR)</th>
             <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Campaign</th>
@@ -25,6 +26,7 @@
             ]"
           >
             <td class="px-8 py-5 text-sm">{{ formatDate(b.start_date_time) }}</td>
+            <td class="px-8 py-5 text-sm text-on-surface-variant">{{ formatDate(b.created_at) }}</td>
             <td class="px-8 py-5 text-sm font-semibold">{{ b.product_title }}</td>
             <td class="px-8 py-5 text-sm">{{ formatCurrency(b.total_price) }}</td>
             <td class="px-8 py-5 text-sm text-on-surface-variant">{{ b.first_campaign || '-' }}</td>
@@ -53,10 +55,7 @@ function formatCurrency(val: number) {
   return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(val)
 }
 
-function formatDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' })
-}
+const { formatDate } = useFormatDate()
 
 function normalizeStatus(status: string): string {
   const s = status.toLowerCase()
