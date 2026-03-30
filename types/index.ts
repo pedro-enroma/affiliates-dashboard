@@ -100,3 +100,10 @@ export interface CampaignPerformance {
   revenue: number
   status: 'Active' | 'Pending'
 }
+
+export interface AffiliateRow {
+  affiliate: Affiliate
+  sessions: number
+  bookings: number
+  revenue: number
+}
