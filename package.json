@@ -1,0 +1,22 @@
+{
+  "name": "affiliates-numatours",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/supabase": "^1.4.6",
+    "chart.js": "^4.4.8",
+    "vue-chartjs": "^5.3.2",
+    "nuxt": "^3.16.1"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.13.2",
+    "typescript": "^5.7.3"
+  }
+}
