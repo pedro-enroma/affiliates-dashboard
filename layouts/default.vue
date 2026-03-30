@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-background">
     <!-- Mobile sidebar overlay -->
     <div v-if="sidebarOpen" class="fixed inset-0 z-40 lg:hidden" @click="sidebarOpen = false">
       <div class="fixed inset-0 bg-gray-600/75" />
@@ -9,12 +9,12 @@
     <UiSidebar :open="sidebarOpen" @close="sidebarOpen = false" />
 
     <!-- Main content -->
-    <div class="lg:pl-64">
+    <main class="lg:ml-64 min-h-screen relative">
       <UiTopBar @toggle-sidebar="sidebarOpen = !sidebarOpen" />
-      <main class="p-6">
+      <div class="pt-32 pb-20 px-10 max-w-7xl mx-auto">
         <slot />
-      </main>
-    </div>
+      </div>
+    </main>
   </div>
 </template>
 
