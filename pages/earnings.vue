@@ -74,7 +74,7 @@
 import type { ActivityBooking } from '~/types'
 
 const { range } = useDateRange()
-const { commissionRate } = useAffiliate()
+const { affiliate, commissionRate } = useAffiliate()
 const { fetchBookings, summarizeByMonth } = useEarnings()
 
 const bookings = ref<ActivityBooking[]>([])
@@ -87,7 +87,7 @@ const totals = computed(() => {
 })
 
 function formatCurrency(val: number) {
-  return new Intl.NumberFormat('en-EU', { style: 'currency', currency: 'EUR' }).format(val)
+  return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(val)
 }
 
 function formatMonth(ym: string) {
@@ -97,8 +97,10 @@ function formatMonth(ym: string) {
 }
 
 async function loadData() {
-  bookings.value = await fetchBookings(range.value)
+  const aid = affiliate.value?.affiliate_id
+  if (!aid) return
+  bookings.value = await fetchBookings(range.value, aid)
 }
 
-watch(range, loadData, { immediate: true })
+watch([range, () => affiliate.value?.affiliate_id], loadData, { immediate: true })
 </script>

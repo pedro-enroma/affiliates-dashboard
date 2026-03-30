@@ -90,6 +90,9 @@ async function handleDelete(id: number) {
 }
 
 onMounted(async () => {
-  campaigns.value = await fetchCampaigns()
+  const aid = affiliate.value?.affiliate_id
+  if (aid) {
+    campaigns.value = await fetchCampaigns(aid)
+  }
 })
 </script>

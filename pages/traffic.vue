@@ -71,6 +71,7 @@
 import type { DailyTraffic } from '~/types'
 
 const { range } = useDateRange()
+const { affiliate } = useAffiliate()
 const { fetchDailyTraffic, fetchDemographics, aggregateDemographics } = useTraffic()
 
 const trafficData = ref<DailyTraffic[]>([])
@@ -82,7 +83,6 @@ const countryValues = computed(() => countryData.value.slice(0, 10).map((d) => d
 const deviceLabels = computed(() => deviceData.value.map((d) => d.label))
 const deviceValues = computed(() => deviceData.value.map((d) => d.sessions))
 
-// Aggregate daily rows (across campaigns)
 const dailyRows = computed(() => {
   const map = new Map<string, { sessions: number; users: number; newUsers: number; pageViews: number }>()
   for (const row of trafficData.value) {
@@ -99,15 +99,18 @@ const dailyRows = computed(() => {
 })
 
 async function loadData() {
+  const aid = affiliate.value?.affiliate_id
+  if (!aid) return
+
   const [traffic, countries, devices] = await Promise.all([
-    fetchDailyTraffic(range.value),
-    fetchDemographics(range.value, 'country'),
-    fetchDemographics(range.value, 'device_category'),
+    fetchDailyTraffic(range.value, aid),
+    fetchDemographics(range.value, 'country', aid),
+    fetchDemographics(range.value, 'device_category', aid),
   ])
   trafficData.value = traffic
   countryData.value = aggregateDemographics(countries)
   deviceData.value = aggregateDemographics(devices)
 }
 
-watch(range, loadData, { immediate: true })
+watch([range, () => affiliate.value?.affiliate_id], loadData, { immediate: true })
 </script>
