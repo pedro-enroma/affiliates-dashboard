@@ -1,58 +1,62 @@
 import type { DailyTraffic, DailyEvent, TrafficDemographic, DateRange } from '~/types'
+import { fetchAllRows } from '~/composables/usePaginatedFetch'
 
 export function useTraffic() {
   const client = useSupabaseClient()
 
   async function fetchDailyTraffic(range: DateRange, affiliateId?: string): Promise<DailyTraffic[]> {
-    let query = client
-      .from('affiliate_daily_traffic')
-      .select('*')
-      .gte('date', range.start)
-      .lte('date', range.end)
-      .order('date', { ascending: true })
+    return fetchAllRows<DailyTraffic>((from, to) => {
+      let query = client
+        .from('affiliate_daily_traffic')
+        .select('*')
+        .gte('date', range.start)
+        .lte('date', range.end)
+        .order('date', { ascending: true })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as DailyTraffic[]
+      return query
+    })
   }
 
   async function fetchDailyEvents(range: DateRange, affiliateId?: string): Promise<DailyEvent[]> {
-    let query = client
-      .from('affiliate_daily_events')
-      .select('*')
-      .gte('date', range.start)
-      .lte('date', range.end)
-      .order('date', { ascending: true })
+    return fetchAllRows<DailyEvent>((from, to) => {
+      let query = client
+        .from('affiliate_daily_events')
+        .select('*')
+        .gte('date', range.start)
+        .lte('date', range.end)
+        .order('date', { ascending: true })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as DailyEvent[]
+      return query
+    })
   }
 
   async function fetchDemographics(range: DateRange, dimensionType: string, affiliateId?: string): Promise<TrafficDemographic[]> {
-    let query = client
-      .from('affiliate_traffic_demographics')
-      .select('*')
-      .gte('date', range.start)
-      .lte('date', range.end)
-      .eq('dimension_type', dimensionType)
-      .order('date', { ascending: true })
+    return fetchAllRows<TrafficDemographic>((from, to) => {
+      let query = client
+        .from('affiliate_traffic_demographics')
+        .select('*')
+        .gte('date', range.start)
+        .lte('date', range.end)
+        .eq('dimension_type', dimensionType)
+        .order('date', { ascending: true })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as TrafficDemographic[]
+      return query
+    })
   }
 
   function aggregateTraffic(rows: DailyTraffic[]) {

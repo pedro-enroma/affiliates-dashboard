@@ -1,42 +1,45 @@
 import type { ActivityBooking, DateRange } from '~/types'
+import { fetchAllRows } from '~/composables/usePaginatedFetch'
 
 export function useEarnings() {
   const bookingsClient = useBookingsClient()
   const { commissionRate } = useAffiliate()
 
   async function fetchBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
-    let query = bookingsClient
-      .from('activity_bookings')
-      .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
-      .gte('start_date_time', range.start)
-      .lte('start_date_time', range.end + 'T23:59:59')
-      .in('status', ['CONFIRMED', 'confirmed'])
-      .order('start_date_time', { ascending: false })
+    return fetchAllRows<ActivityBooking>((from, to) => {
+      let query = bookingsClient
+        .from('activity_bookings')
+        .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
+        .gte('start_date_time', range.start)
+        .lte('start_date_time', range.end + 'T23:59:59')
+        .in('status', ['CONFIRMED', 'confirmed'])
+        .order('start_date_time', { ascending: false })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as ActivityBooking[]
+      return query
+    })
   }
 
   async function fetchAllBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
-    let query = bookingsClient
-      .from('activity_bookings')
-      .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
-      .gte('start_date_time', range.start)
-      .lte('start_date_time', range.end + 'T23:59:59')
-      .order('start_date_time', { ascending: false })
+    return fetchAllRows<ActivityBooking>((from, to) => {
+      let query = bookingsClient
+        .from('activity_bookings')
+        .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
+        .gte('start_date_time', range.start)
+        .lte('start_date_time', range.end + 'T23:59:59')
+        .order('start_date_time', { ascending: false })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as ActivityBooking[]
+      return query
+    })
   }
 
   function calculateCommission(price: number): number {

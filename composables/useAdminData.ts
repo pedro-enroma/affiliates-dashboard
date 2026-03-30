@@ -1,16 +1,17 @@
 import type { Affiliate, AffiliateCommission, DailyTraffic, ActivityBooking } from '~/types'
+import { fetchAllRows } from '~/composables/usePaginatedFetch'
 
 export function useAdminData() {
   const client = useSupabaseClient()
 
   async function fetchAllAffiliates(): Promise<Affiliate[]> {
-    const { data, error } = await client
-      .from('affiliates')
-      .select('*')
-      .order('display_name', { ascending: true })
-
-    if (error) throw error
-    return (data || []) as Affiliate[]
+    return fetchAllRows<Affiliate>((from, to) => {
+      return client
+        .from('affiliates')
+        .select('*')
+        .order('display_name', { ascending: true })
+        .range(from, to)
+    })
   }
 
   async function fetchAffiliateCommission(affiliateId: string): Promise<number> {

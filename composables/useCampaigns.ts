@@ -1,22 +1,24 @@
 import type { AffiliateCampaign } from '~/types'
+import { fetchAllRows } from '~/composables/usePaginatedFetch'
 
 export function useCampaigns() {
   const client = useSupabaseClient()
   const { affiliate } = useAffiliate()
 
   async function fetchCampaigns(affiliateId?: string): Promise<AffiliateCampaign[]> {
-    let query = client
-      .from('affiliate_campaigns')
-      .select('*')
-      .order('created_at', { ascending: false })
+    return fetchAllRows<AffiliateCampaign>((from, to) => {
+      let query = client
+        .from('affiliate_campaigns')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .range(from, to)
 
-    if (affiliateId) {
-      query = query.eq('affiliate_id', affiliateId)
-    }
+      if (affiliateId) {
+        query = query.eq('affiliate_id', affiliateId)
+      }
 
-    const { data, error } = await query
-    if (error) throw error
-    return (data || []) as AffiliateCampaign[]
+      return query
+    })
   }
 
   async function createCampaign(campaign: {
