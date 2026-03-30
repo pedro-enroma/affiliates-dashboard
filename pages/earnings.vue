@@ -59,7 +59,7 @@
               <td class="py-2 text-gray-900 max-w-[250px] truncate">{{ b.product_title }}</td>
               <td class="py-2 text-right text-gray-600">{{ formatCurrency(b.total_price) }}</td>
               <td class="py-2 text-right text-green-600 font-medium">
-                {{ formatCurrency(calculateCommission(b.total_price)) }}
+                {{ formatCurrency(b.affiliate_commission || 0) }}
               </td>
               <td class="py-2 text-gray-500">{{ b.first_campaign || '-' }}</td>
             </tr>
@@ -75,14 +75,14 @@ import type { ActivityBooking } from '~/types'
 
 const { range } = useDateRange()
 const { commissionRate } = useAffiliate()
-const { fetchBookings, calculateCommission, summarizeByMonth } = useEarnings()
+const { fetchBookings, summarizeByMonth } = useEarnings()
 
 const bookings = ref<ActivityBooking[]>([])
 const monthlySummary = computed(() => summarizeByMonth(bookings.value))
 
 const totals = computed(() => {
   const revenue = bookings.value.reduce((sum, b) => sum + b.total_price, 0)
-  const commission = bookings.value.reduce((sum, b) => sum + calculateCommission(b.total_price), 0)
+  const commission = bookings.value.reduce((sum, b) => sum + (b.affiliate_commission || 0), 0)
   return { revenue, commission, bookings: bookings.value.length }
 })
 

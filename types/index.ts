@@ -73,10 +73,12 @@ export interface ActivityBooking {
   product_title: string
   start_date_time: string
   total_price: number
-  currency: string
   status: string
   affiliate_id: string | null
   first_campaign: string | null
+  affiliate_commission: number | null
+  affiliate_commission_percentage: number | null
+  participant_count: number | null
   created_at: string
 }
 

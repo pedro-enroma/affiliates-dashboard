@@ -115,15 +115,11 @@ async function loadProfile() {
   commissionRate.value = await fetchAffiliateCommission(affiliateId)
 }
 
-function calculateCommission(price: number): number {
-  return price * (commissionRate.value / 100)
-}
-
 const kpis = computed<KpiData>(() => {
   const traffic = aggregateTraffic(trafficData.value)
   const totalBookings = bookings.value.length
   const totalRevenue = bookings.value.reduce((sum, b) => sum + b.total_price, 0)
-  const totalCommission = bookings.value.reduce((sum, b) => sum + calculateCommission(b.total_price), 0)
+  const totalCommission = bookings.value.reduce((sum, b) => sum + (b.affiliate_commission || 0), 0)
   const conversionRate = traffic.sessions > 0 ? (totalBookings / traffic.sessions) * 100 : 0
 
   return {
@@ -139,7 +135,7 @@ const prevKpis = computed<KpiData>(() => {
   const traffic = aggregateTraffic(prevTrafficData.value)
   const totalBookings = prevBookings.value.length
   const totalRevenue = prevBookings.value.reduce((sum, b) => sum + b.total_price, 0)
-  const totalCommission = prevBookings.value.reduce((sum, b) => sum + calculateCommission(b.total_price), 0)
+  const totalCommission = prevBookings.value.reduce((sum, b) => sum + (b.affiliate_commission || 0), 0)
   const conversionRate = traffic.sessions > 0 ? (totalBookings / traffic.sessions) * 100 : 0
 
   return {
