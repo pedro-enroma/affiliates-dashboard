@@ -13,6 +13,7 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
+    supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
     public: {
       baseUrl: process.env.BASE_URL || 'https://enroma.com',
       bookingsSupabaseUrl: process.env.BOOKINGS_SUPABASE_URL || '',
