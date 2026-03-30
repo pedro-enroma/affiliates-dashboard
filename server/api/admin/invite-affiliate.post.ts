@@ -21,17 +21,20 @@ export default defineEventHandler(async (event) => {
   }
   const token = authHeader.slice(7)
 
-  const anonClient = createClient(
+  // Service role client bypasses RLS — used for admin verification and all writes
+  const serviceClient = createClient(
     process.env.SUPABASE_URL || '',
-    process.env.SUPABASE_KEY || '',
+    config.supabaseServiceRoleKey,
   )
 
-  const { data: { user }, error: authError } = await anonClient.auth.getUser(token)
+  // Verify the caller's token
+  const { data: { user }, error: authError } = await serviceClient.auth.getUser(token)
   if (authError || !user) {
     throw createError({ statusCode: 401, message: 'Invalid token' })
   }
 
-  const { data: adminRow } = await anonClient
+  // Check if the caller is an admin (service role bypasses RLS)
+  const { data: adminRow } = await serviceClient
     .from('admins')
     .select('id')
     .eq('user_id', user.id)
@@ -40,11 +43,6 @@ export default defineEventHandler(async (event) => {
   if (!adminRow) {
     throw createError({ statusCode: 403, message: 'Not an admin' })
   }
-
-  const serviceClient = createClient(
-    process.env.SUPABASE_URL || '',
-    config.supabaseServiceRoleKey,
-  )
 
   const { data: inviteData, error: inviteError } = await serviceClient.auth.admin.inviteUserByEmail(body.email)
   if (inviteError) {
