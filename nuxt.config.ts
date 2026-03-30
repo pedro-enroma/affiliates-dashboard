@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   },
 
   devServer: {
-    port: 6001,
+    port: 6500,
   },
 
   app: {

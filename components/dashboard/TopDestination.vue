@@ -3,7 +3,7 @@
     <!-- Background image -->
     <img
       v-if="imageExists"
-      src="/images/destination-placeholder.jpg"
+      :src="imageSrc"
       alt=""
       class="absolute inset-0 w-full h-full object-cover opacity-20 grayscale group-hover:grayscale-0 transition-all duration-700"
     />
@@ -57,11 +57,12 @@ defineProps<{
   healthPercent: number
 }>()
 
-const imageExists = ref(true)
+const imageSrc = '/images/destination-placeholder.jpg'
+const imageExists = ref(false)
 onMounted(() => {
   const img = new Image()
   img.onload = () => { imageExists.value = true }
   img.onerror = () => { imageExists.value = false }
-  img.src = '/images/destination-placeholder.jpg'
+  img.src = imageSrc
 })
 </script>
