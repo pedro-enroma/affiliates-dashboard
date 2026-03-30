@@ -38,11 +38,8 @@
       />
     </section>
 
-    <!-- Charts row -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <DashboardTrafficChart :data="trafficData" />
-      <DashboardFunnelChart :data="eventsData" />
-    </section>
+    <!-- Traffic chart -->
+    <DashboardTrafficChart :data="trafficData" />
 
     <!-- Recent Bookings -->
     <DashboardRecentBookings :bookings="allBookings" />
