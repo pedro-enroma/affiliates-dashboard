@@ -17,6 +17,18 @@ export function useEarnings() {
     return (data || []) as ActivityBooking[]
   }
 
+  async function fetchAllBookings(range: DateRange): Promise<ActivityBooking[]> {
+    const { data, error } = await client
+      .from('activity_bookings')
+      .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
+      .gte('start_date_time', range.start)
+      .lte('start_date_time', range.end + 'T23:59:59')
+      .order('start_date_time', { ascending: false })
+
+    if (error) throw error
+    return (data || []) as ActivityBooking[]
+  }
+
   function calculateCommission(price: number): number {
     return price * (commissionRate.value / 100)
   }
@@ -40,6 +52,7 @@ export function useEarnings() {
 
   return {
     fetchBookings,
+    fetchAllBookings,
     calculateCommission,
     summarizeByMonth,
   }
