@@ -1,44 +1,44 @@
 <template>
   <div>
     <NuxtLayout name="auth">
-      <h2 class="text-xl font-semibold text-gray-900 mb-6">Sign in to your account</h2>
+      <h2 class="text-xl font-bold text-on-surface font-headline mb-6">Sign in to your account</h2>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Email</label>
           <input
             v-model="email"
             type="email"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
             placeholder="you@example.com"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Password</label>
           <input
             v-model="password"
             type="password"
             required
-            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
             placeholder="Your password"
           />
         </div>
 
-        <p v-if="error" class="text-sm text-red-600">{{ error }}</p>
+        <p v-if="error" class="text-sm text-error">{{ error }}</p>
 
         <button
           type="submit"
           :disabled="loading"
-          class="w-full py-2.5 px-4 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
+          class="w-full py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
         >
           {{ loading ? 'Signing in...' : 'Sign in' }}
         </button>
       </form>
 
       <div class="mt-4 text-center">
-        <NuxtLink to="/forgot-password" class="text-sm text-primary-600 hover:text-primary-700">
+        <NuxtLink to="/forgot-password" class="text-sm text-primary font-semibold hover:underline">
           Forgot your password?
         </NuxtLink>
       </div>
