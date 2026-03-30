@@ -45,5 +45,43 @@ export function useAdminData() {
     return map
   }
 
-  return { fetchAllAffiliates, fetchAffiliateCommission, groupTrafficByAffiliate, groupBookingsByAffiliate }
+  async function updateAffiliate(
+    userId: string,
+    updates: { display_name?: string; website_url?: string | null; bio?: string | null; is_active?: boolean },
+  ): Promise<void> {
+    const { error } = await client
+      .from('affiliates')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', userId)
+
+    if (error) throw error
+  }
+
+  async function updateAffiliateCommission(affiliateId: string, commissionPercentage: number): Promise<void> {
+    const { error } = await client
+      .from('affiliate_commissions')
+      .update({ commission_percentage: commissionPercentage, updated_at: new Date().toISOString() })
+      .eq('affiliate_id', affiliateId)
+
+    if (error) throw error
+  }
+
+  async function fetchAllCommissions(): Promise<AffiliateCommission[]> {
+    const { data, error } = await client
+      .from('affiliate_commissions')
+      .select('*')
+
+    if (error) throw error
+    return (data || []) as AffiliateCommission[]
+  }
+
+  return {
+    fetchAllAffiliates,
+    fetchAffiliateCommission,
+    groupTrafficByAffiliate,
+    groupBookingsByAffiliate,
+    updateAffiliate,
+    updateAffiliateCommission,
+    fetchAllCommissions,
+  }
 }
