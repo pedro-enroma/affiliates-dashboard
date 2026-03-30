@@ -1,14 +1,28 @@
 <template>
-  <div class="bg-white rounded-xl border border-gray-200 p-5">
-    <h3 class="text-sm font-medium text-gray-500 mb-4">Traffic Overview</h3>
-    <div class="h-64">
+  <div class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h3 class="text-lg font-bold text-on-surface font-headline">Traffic Over Time</h3>
+        <p class="text-sm text-zinc-500">Comparing Sessions and Users</p>
+      </div>
+      <div class="flex gap-4">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-primary-container" />
+          <span class="text-xs font-semibold text-zinc-600">Sessions</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-zinc-300" />
+          <span class="text-xs font-semibold text-zinc-600">Users</span>
+        </div>
+      </div>
+    </div>
+    <div class="h-[250px]">
       <ChartsLineChart
         v-if="labels.length"
         :labels="labels"
         :datasets="datasets"
-        y-title="Count"
       />
-      <div v-else class="flex items-center justify-center h-full text-gray-400 text-sm">
+      <div v-else class="flex items-center justify-center h-full text-zinc-400 text-sm">
         No traffic data available
       </div>
     </div>
@@ -20,14 +34,12 @@ import type { DailyTraffic } from '~/types'
 
 const props = defineProps<{ data: DailyTraffic[] }>()
 
-// Aggregate by date across campaigns
 const byDate = computed(() => {
-  const map = new Map<string, { sessions: number; users: number; pageViews: number }>()
+  const map = new Map<string, { sessions: number; users: number }>()
   for (const row of props.data) {
-    const existing = map.get(row.date) || { sessions: 0, users: 0, pageViews: 0 }
+    const existing = map.get(row.date) || { sessions: 0, users: 0 }
     existing.sessions += row.sessions
     existing.users += row.total_users
-    existing.pageViews += row.page_views
     map.set(row.date, existing)
   }
   return new Map([...map.entries()].sort(([a], [b]) => a.localeCompare(b)))
@@ -39,11 +51,15 @@ const datasets = computed(() => [
   {
     label: 'Sessions',
     data: [...byDate.value.values()].map((v) => v.sessions),
+    borderColor: '#2dba7d',
+    backgroundColor: 'rgba(45, 186, 125, 0.1)',
     fill: true,
   },
   {
     label: 'Users',
     data: [...byDate.value.values()].map((v) => v.users),
+    borderColor: '#d1d5db',
+    borderDash: [6, 4],
   },
 ])
 </script>
