@@ -1,72 +1,76 @@
 <template>
-  <div class="space-y-6">
-    <!-- Page content (date picker is in TopBar) -->
-
+  <div class="space-y-8">
     <!-- Summary KPIs -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
       <DashboardKpiCard label="Total Revenue" :value="totals.revenue" format="currency" />
-      <DashboardKpiCard label="Total Commission" :value="totals.commission" format="currency" />
+      <DashboardKpiCard label="Total Commission" :value="totals.commission" format="currency" highlight />
       <DashboardKpiCard label="Bookings" :value="totals.bookings" />
-      <DashboardKpiCard
-        label="Commission Rate"
-        :value="commissionRate"
-        format="percent"
-      />
-    </div>
+      <DashboardKpiCard label="Commission Rate" :value="commissionRate" format="percent" />
+    </section>
 
     <!-- Monthly summary -->
-    <div class="bg-white rounded-xl border border-gray-200 p-5">
-      <h3 class="text-sm font-medium text-gray-500 mb-4">Monthly Summary</h3>
+    <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
+      <div class="p-8 border-b border-outline-variant/10">
+        <h3 class="text-lg font-bold text-on-surface font-headline">Monthly Summary</h3>
+      </div>
       <div class="overflow-x-auto">
-        <table class="w-full text-sm">
+        <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="text-left text-gray-500 border-b border-gray-100">
-              <th class="pb-2 font-medium">Month</th>
-              <th class="pb-2 font-medium text-right">Bookings</th>
-              <th class="pb-2 font-medium text-right">Revenue</th>
-              <th class="pb-2 font-medium text-right">Commission</th>
+            <tr class="bg-surface-container-low/50">
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Month</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Bookings</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Revenue</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Commission</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="row in monthlySummary" :key="row.month" class="border-b border-gray-50">
-              <td class="py-2 text-gray-900 font-medium">{{ formatMonth(row.month) }}</td>
-              <td class="py-2 text-right text-gray-600">{{ row.bookings }}</td>
-              <td class="py-2 text-right text-gray-600">{{ formatCurrency(row.revenue) }}</td>
-              <td class="py-2 text-right text-green-600 font-medium">{{ formatCurrency(row.commission) }}</td>
+          <tbody class="divide-y divide-outline-variant/5">
+            <tr
+              v-for="(row, i) in monthlySummary"
+              :key="row.month"
+              :class="['hover:bg-primary-container/5 transition-colors', i % 2 === 1 ? 'bg-surface-container-low/30' : '']"
+            >
+              <td class="px-8 py-5 text-sm font-semibold text-on-surface">{{ formatMonth(row.month) }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ row.bookings }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ formatCurrency(row.revenue) }}</td>
+              <td class="px-8 py-5 text-sm text-right font-bold text-primary">{{ formatCurrency(row.commission) }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
 
     <!-- Individual bookings -->
-    <div class="bg-white rounded-xl border border-gray-200 p-5">
-      <h3 class="text-sm font-medium text-gray-500 mb-4">Bookings ({{ bookings.length }})</h3>
+    <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
+      <div class="p-8 border-b border-outline-variant/10">
+        <h3 class="text-lg font-bold text-on-surface font-headline">Bookings ({{ bookings.length }})</h3>
+      </div>
       <div class="overflow-x-auto">
-        <table class="w-full text-sm">
+        <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="text-left text-gray-500 border-b border-gray-100">
-              <th class="pb-2 font-medium">Date</th>
-              <th class="pb-2 font-medium">Tour</th>
-              <th class="pb-2 font-medium text-right">Price</th>
-              <th class="pb-2 font-medium text-right">Commission</th>
-              <th class="pb-2 font-medium">Campaign</th>
+            <tr class="bg-surface-container-low/50">
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Tour</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Price</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Commission</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Campaign</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="b in bookings" :key="b.id" class="border-b border-gray-50">
-              <td class="py-2 text-gray-600">{{ b.start_date_time?.slice(0, 10) }}</td>
-              <td class="py-2 text-gray-900 max-w-[250px] truncate">{{ b.product_title }}</td>
-              <td class="py-2 text-right text-gray-600">{{ formatCurrency(b.total_price) }}</td>
-              <td class="py-2 text-right text-green-600 font-medium">
-                {{ formatCurrency(b.affiliate_commission || 0) }}
-              </td>
-              <td class="py-2 text-gray-500">{{ b.first_campaign || '-' }}</td>
+          <tbody class="divide-y divide-outline-variant/5">
+            <tr
+              v-for="(b, i) in bookings"
+              :key="b.id"
+              :class="['hover:bg-primary-container/5 transition-colors', i % 2 === 1 ? 'bg-surface-container-low/30' : '']"
+            >
+              <td class="px-8 py-5 text-sm">{{ b.start_date_time?.slice(0, 10) }}</td>
+              <td class="px-8 py-5 text-sm font-semibold text-on-surface max-w-[250px] truncate">{{ b.product_title }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ formatCurrency(b.total_price) }}</td>
+              <td class="px-8 py-5 text-sm text-right font-bold text-primary">{{ formatCurrency(b.affiliate_commission || 0) }}</td>
+              <td class="px-8 py-5 text-sm text-on-surface-variant">{{ b.first_campaign || '-' }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 

@@ -1,69 +1,73 @@
 <template>
-  <div class="space-y-6">
-    <!-- Page content (date picker is in TopBar) -->
-
+  <div class="space-y-8">
     <!-- Traffic over time -->
     <DashboardTrafficChart :data="trafficData" />
 
     <!-- Demographics row -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Country breakdown -->
-      <div class="bg-white rounded-xl border border-gray-200 p-5">
-        <h3 class="text-sm font-medium text-gray-500 mb-4">Top Countries</h3>
+      <div class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
+        <h3 class="text-lg font-bold text-on-surface font-headline mb-6">Top Countries</h3>
         <div class="h-64">
           <ChartsDoughnutChart
             v-if="countryLabels.length"
             :labels="countryLabels"
             :data="countryValues"
           />
-          <div v-else class="flex items-center justify-center h-full text-gray-400 text-sm">
+          <div v-else class="flex items-center justify-center h-full text-zinc-400 text-sm">
             No country data
           </div>
         </div>
       </div>
 
       <!-- Device breakdown -->
-      <div class="bg-white rounded-xl border border-gray-200 p-5">
-        <h3 class="text-sm font-medium text-gray-500 mb-4">Devices</h3>
+      <div class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
+        <h3 class="text-lg font-bold text-on-surface font-headline mb-6">Devices</h3>
         <div class="h-64">
           <ChartsBarChart
             v-if="deviceLabels.length"
             :labels="deviceLabels"
-            :datasets="[{ label: 'Sessions', data: deviceValues, backgroundColor: '#3b82f6' }]"
+            :datasets="[{ label: 'Sessions', data: deviceValues, backgroundColor: '#2dba7d' }]"
           />
-          <div v-else class="flex items-center justify-center h-full text-gray-400 text-sm">
+          <div v-else class="flex items-center justify-center h-full text-zinc-400 text-sm">
             No device data
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Traffic table -->
-    <div class="bg-white rounded-xl border border-gray-200 p-5">
-      <h3 class="text-sm font-medium text-gray-500 mb-4">Daily Breakdown</h3>
+    <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
+      <div class="p-8 border-b border-outline-variant/10">
+        <h3 class="text-lg font-bold text-on-surface font-headline">Daily Breakdown</h3>
+      </div>
       <div class="overflow-x-auto">
-        <table class="w-full text-sm">
+        <table class="w-full text-left border-collapse">
           <thead>
-            <tr class="text-left text-gray-500 border-b border-gray-100">
-              <th class="pb-2 font-medium">Date</th>
-              <th class="pb-2 font-medium text-right">Sessions</th>
-              <th class="pb-2 font-medium text-right">Users</th>
-              <th class="pb-2 font-medium text-right">New Users</th>
-              <th class="pb-2 font-medium text-right">Page Views</th>
+            <tr class="bg-surface-container-low/50">
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Date</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Sessions</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Users</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">New Users</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Page Views</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="row in dailyRows" :key="row.date" class="border-b border-gray-50">
-              <td class="py-2 text-gray-600">{{ row.date }}</td>
-              <td class="py-2 text-right">{{ row.sessions.toLocaleString() }}</td>
-              <td class="py-2 text-right">{{ row.users.toLocaleString() }}</td>
-              <td class="py-2 text-right">{{ row.newUsers.toLocaleString() }}</td>
-              <td class="py-2 text-right">{{ row.pageViews.toLocaleString() }}</td>
+          <tbody class="divide-y divide-outline-variant/5">
+            <tr
+              v-for="(row, i) in dailyRows"
+              :key="row.date"
+              :class="['hover:bg-primary-container/5 transition-colors', i % 2 === 1 ? 'bg-surface-container-low/30' : '']"
+            >
+              <td class="px-8 py-5 text-sm">{{ row.date }}</td>
+              <td class="px-8 py-5 text-sm text-right font-semibold">{{ row.sessions.toLocaleString() }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ row.users.toLocaleString() }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ row.newUsers.toLocaleString() }}</td>
+              <td class="px-8 py-5 text-sm text-right">{{ row.pageViews.toLocaleString() }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
