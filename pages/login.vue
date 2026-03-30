@@ -70,6 +70,14 @@ async function handleLogin() {
     return
   }
 
-  navigateTo('/')
+  // Check role and redirect accordingly
+  const { isAdmin, checkRole } = useAuth()
+  await checkRole()
+
+  if (isAdmin.value) {
+    navigateTo('/admin')
+  } else {
+    navigateTo('/')
+  }
 }
 </script>
