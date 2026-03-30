@@ -92,3 +92,11 @@ export interface KpiData {
   commission: number
   conversionRate: number
 }
+
+export interface CampaignPerformance {
+  campaign: AffiliateCampaign
+  trafficSource: string
+  clickThrough: number
+  revenue: number
+  status: 'Active' | 'Pending'
+}
