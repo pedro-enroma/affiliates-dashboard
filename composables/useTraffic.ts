@@ -3,32 +3,42 @@ import type { DailyTraffic, DailyEvent, TrafficDemographic, DateRange } from '~/
 export function useTraffic() {
   const client = useSupabaseClient()
 
-  async function fetchDailyTraffic(range: DateRange): Promise<DailyTraffic[]> {
-    const { data, error } = await client
+  async function fetchDailyTraffic(range: DateRange, affiliateId?: string): Promise<DailyTraffic[]> {
+    let query = client
       .from('affiliate_daily_traffic')
       .select('*')
       .gte('date', range.start)
       .lte('date', range.end)
       .order('date', { ascending: true })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as DailyTraffic[]
   }
 
-  async function fetchDailyEvents(range: DateRange): Promise<DailyEvent[]> {
-    const { data, error } = await client
+  async function fetchDailyEvents(range: DateRange, affiliateId?: string): Promise<DailyEvent[]> {
+    let query = client
       .from('affiliate_daily_events')
       .select('*')
       .gte('date', range.start)
       .lte('date', range.end)
       .order('date', { ascending: true })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as DailyEvent[]
   }
 
-  async function fetchDemographics(range: DateRange, dimensionType: string): Promise<TrafficDemographic[]> {
-    const { data, error } = await client
+  async function fetchDemographics(range: DateRange, dimensionType: string, affiliateId?: string): Promise<TrafficDemographic[]> {
+    let query = client
       .from('affiliate_traffic_demographics')
       .select('*')
       .gte('date', range.start)
@@ -36,11 +46,15 @@ export function useTraffic() {
       .eq('dimension_type', dimensionType)
       .order('date', { ascending: true })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as TrafficDemographic[]
   }
 
-  // Aggregate daily traffic into totals
   function aggregateTraffic(rows: DailyTraffic[]) {
     return rows.reduce(
       (acc, row) => ({
@@ -53,7 +67,6 @@ export function useTraffic() {
     )
   }
 
-  // Group demographics by dimension_value and sum
   function aggregateDemographics(rows: TrafficDemographic[]) {
     const map = new Map<string, { sessions: number; users: number }>()
     for (const row of rows) {
