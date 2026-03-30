@@ -1,51 +1,41 @@
 <template>
-  <div class="space-y-6">
-    <div class="flex items-center justify-between">
-      <h1 class="text-2xl font-bold text-gray-900">Campaigns</h1>
-      <NuxtLink
-        to="/campaigns/create"
-        class="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors"
-      >
-        Create Campaign
-      </NuxtLink>
-    </div>
-
+  <div class="space-y-8">
     <!-- Campaign list -->
     <div v-if="campaigns.length" class="space-y-4">
       <div
         v-for="c in campaigns"
         :key="c.id"
-        class="bg-white rounded-xl border border-gray-200 p-5"
+        class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8"
       >
         <div class="flex items-start justify-between">
           <div>
-            <h3 class="font-medium text-gray-900">{{ c.campaign_name }}</h3>
-            <p class="text-sm text-gray-500 mt-1">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-700">
+            <h3 class="font-semibold text-on-surface font-headline text-lg">{{ c.campaign_name }}</h3>
+            <div class="flex items-center gap-3 mt-2">
+              <span class="px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed-variant text-[10px] font-bold uppercase tracking-wider">
                 {{ c.campaign_type }}
               </span>
-              <span class="ml-2">{{ c.campaign_slug }}</span>
-            </p>
+              <span class="text-sm text-on-surface-variant font-mono">{{ c.campaign_slug }}</span>
+            </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button
-              class="text-sm text-red-500 hover:text-red-700"
-              @click="handleDelete(c.id)"
-            >
-              Delete
-            </button>
-          </div>
+          <button
+            class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-red-50"
+            title="Delete"
+            @click="handleDelete(c.id)"
+          >
+            <span class="material-symbols-outlined text-lg">delete</span>
+          </button>
         </div>
 
         <!-- Generated link -->
-        <div class="mt-3 p-3 bg-gray-50 rounded-lg">
-          <p class="text-xs text-gray-500 mb-1">Affiliate Link</p>
-          <div class="flex items-center gap-2">
-            <code class="flex-1 text-sm text-gray-700 break-all">{{ getLink(c) }}</code>
+        <div class="mt-4 p-4 bg-surface-container-low rounded-xl">
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Affiliate Link</p>
+          <div class="flex items-center gap-3">
+            <code class="flex-1 text-sm text-on-surface break-all font-mono">{{ getLink(c) }}</code>
             <button
-              class="text-sm text-primary-600 hover:text-primary-700 whitespace-nowrap"
+              class="px-4 py-2 bg-primary text-on-primary rounded-xl font-bold text-xs hover:opacity-90 transition-opacity flex items-center gap-1"
               @click="copyLink(c)"
             >
+              <span class="material-symbols-outlined text-sm">content_copy</span>
               Copy
             </button>
           </div>
@@ -53,12 +43,14 @@
       </div>
     </div>
 
-    <div v-else class="bg-white rounded-xl border border-gray-200 p-12 text-center">
-      <p class="text-gray-500">No campaigns yet</p>
+    <div v-else class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-16 text-center">
+      <span class="material-symbols-outlined text-5xl text-zinc-300 mb-4">campaign</span>
+      <p class="text-zinc-400 mb-4">No campaigns yet</p>
       <NuxtLink
         to="/campaigns/create"
-        class="inline-block mt-4 text-sm text-primary-600 hover:text-primary-700 font-medium"
+        class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
       >
+        <span class="material-symbols-outlined text-sm">add</span>
         Create your first campaign
       </NuxtLink>
     </div>
