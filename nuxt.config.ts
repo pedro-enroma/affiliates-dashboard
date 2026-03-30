@@ -24,9 +24,30 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'NUMAtours Affiliate Dashboard',
+      title: 'NUMAtours Affiliate Portal',
       meta: [
         { name: 'description', content: 'Track your traffic, bookings, and commissions' },
+      ],
+      link: [
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap',
+        },
+        {
+          rel: 'stylesheet',
+          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap',
+        },
+      ],
+      style: [
+        {
+          children: `
+            .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+            body { font-family: 'Manrope', sans-serif; }
+            h1, h2, h3, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+          `,
+        },
       ],
     },
   },
