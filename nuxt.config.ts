@@ -15,6 +15,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseUrl: process.env.BASE_URL || 'https://enroma.com',
+      bookingsSupabaseUrl: process.env.BOOKINGS_SUPABASE_URL || '',
+      bookingsSupabaseKey: process.env.BOOKINGS_SUPABASE_KEY || '',
     },
   },
 

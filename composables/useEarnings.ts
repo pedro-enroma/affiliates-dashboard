@@ -1,11 +1,11 @@
 import type { ActivityBooking, DateRange } from '~/types'
 
 export function useEarnings() {
-  const client = useSupabaseClient()
+  const bookingsClient = useBookingsClient()
   const { commissionRate } = useAffiliate()
 
   async function fetchBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
-    let query = client
+    let query = bookingsClient
       .from('activity_bookings')
       .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
       .gte('start_date_time', range.start)
@@ -23,7 +23,7 @@ export function useEarnings() {
   }
 
   async function fetchAllBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
-    let query = client
+    let query = bookingsClient
       .from('activity_bookings')
       .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
       .gte('start_date_time', range.start)
