@@ -4,8 +4,8 @@ export function useEarnings() {
   const client = useSupabaseClient()
   const { commissionRate } = useAffiliate()
 
-  async function fetchBookings(range: DateRange): Promise<ActivityBooking[]> {
-    const { data, error } = await client
+  async function fetchBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
+    let query = client
       .from('activity_bookings')
       .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
       .gte('start_date_time', range.start)
@@ -13,18 +13,28 @@ export function useEarnings() {
       .in('status', ['CONFIRMED', 'confirmed'])
       .order('start_date_time', { ascending: false })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as ActivityBooking[]
   }
 
-  async function fetchAllBookings(range: DateRange): Promise<ActivityBooking[]> {
-    const { data, error } = await client
+  async function fetchAllBookings(range: DateRange, affiliateId?: string): Promise<ActivityBooking[]> {
+    let query = client
       .from('activity_bookings')
       .select('id, booking_id, product_title, start_date_time, total_price, currency, status, affiliate_id, first_campaign, created_at')
       .gte('start_date_time', range.start)
       .lte('start_date_time', range.end + 'T23:59:59')
       .order('start_date_time', { ascending: false })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as ActivityBooking[]
   }
@@ -37,7 +47,7 @@ export function useEarnings() {
     const map = new Map<string, { bookings: number; revenue: number; commission: number }>()
 
     for (const b of bookings) {
-      const month = b.start_date_time.slice(0, 7) // YYYY-MM
+      const month = b.start_date_time.slice(0, 7)
       const existing = map.get(month) || { bookings: 0, revenue: 0, commission: 0 }
       existing.bookings++
       existing.revenue += b.total_price
