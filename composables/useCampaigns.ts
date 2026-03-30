@@ -4,12 +4,17 @@ export function useCampaigns() {
   const client = useSupabaseClient()
   const { affiliate } = useAffiliate()
 
-  async function fetchCampaigns(): Promise<AffiliateCampaign[]> {
-    const { data, error } = await client
+  async function fetchCampaigns(affiliateId?: string): Promise<AffiliateCampaign[]> {
+    let query = client
       .from('affiliate_campaigns')
       .select('*')
       .order('created_at', { ascending: false })
 
+    if (affiliateId) {
+      query = query.eq('affiliate_id', affiliateId)
+    }
+
+    const { data, error } = await query
     if (error) throw error
     return (data || []) as AffiliateCampaign[]
   }
