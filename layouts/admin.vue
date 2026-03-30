@@ -11,7 +11,7 @@
     <!-- Main content -->
     <main class="lg:ml-64 min-h-screen relative">
       <UiTopBar @toggle-sidebar="sidebarOpen = !sidebarOpen" />
-      <div class="pt-32 pb-20 px-10 max-w-7xl mx-auto">
+      <div class="pt-28 pb-20 px-6 lg:px-10">
         <slot />
       </div>
     </main>
