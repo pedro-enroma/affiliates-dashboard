@@ -5,22 +5,29 @@
 
     <!-- Demographics row -->
     <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <!-- Country breakdown — heatmap style -->
+      <!-- Country breakdown — world map + ranked list -->
       <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
         <div class="flex justify-between items-center mb-6">
           <h3 class="text-lg font-bold text-on-surface font-headline">Top Countries</h3>
           <span v-if="countryData.length" class="text-xs text-on-surface-variant">{{ countryData.reduce((s, c) => s + c.sessions, 0).toLocaleString() }} total sessions</span>
         </div>
+
+        <!-- World Map -->
+        <div v-if="countryData.length" class="h-[300px] mb-8">
+          <ChartsWorldMap :data="countryMapData" />
+        </div>
+
+        <!-- Ranked country bars below map -->
         <div v-if="countryData.length" class="space-y-3">
           <div
-            v-for="(c, i) in countryData.slice(0, 12)"
+            v-for="c in countryData.slice(0, 10)"
             :key="c.label"
             class="group"
           >
             <div class="flex items-center gap-3">
               <span class="text-lg w-7 text-center">{{ countryFlag(c.label) }}</span>
               <span class="text-sm font-semibold text-on-surface w-32 truncate">{{ c.label }}</span>
-              <div class="flex-1 h-8 bg-surface-container-high/50 rounded-lg overflow-hidden relative">
+              <div class="flex-1 h-6 bg-surface-container-high/50 rounded-lg overflow-hidden relative">
                 <div
                   class="h-full rounded-lg transition-all duration-1000 ease-out"
                   :style="{
@@ -28,7 +35,7 @@
                     backgroundColor: heatColor(c.sessions / maxCountrySessions),
                   }"
                 />
-                <span class="absolute inset-y-0 right-3 flex items-center text-xs font-bold text-on-surface-variant">
+                <span class="absolute inset-y-0 right-3 flex items-center text-[10px] font-bold text-on-surface-variant">
                   {{ c.sessions.toLocaleString() }}
                 </span>
               </div>
@@ -129,6 +136,10 @@ const deviceData = ref<{ label: string; sessions: number; users: number }[]>([])
 
 const deviceLabels = computed(() => deviceData.value.map((d) => d.label))
 const deviceValues = computed(() => deviceData.value.map((d) => d.sessions))
+
+const countryMapData = computed(() =>
+  countryData.value.map((c) => ({ country: c.label, sessions: c.sessions })),
+)
 
 const maxCountrySessions = computed(() => {
   if (!countryData.value.length) return 1
