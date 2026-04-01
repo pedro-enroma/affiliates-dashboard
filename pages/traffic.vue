@@ -13,7 +13,7 @@
         </div>
 
         <!-- World Map -->
-        <div v-if="countryData.length" class="h-[300px] mb-8">
+        <div v-if="countryData.length" class="h-[350px] mb-8">
           <ChartsWorldMap :data="countryMapData" />
         </div>
 
