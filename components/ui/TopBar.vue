@@ -18,10 +18,13 @@
         <input
           :value="searchQuery"
           class="w-full pl-10 pr-4 py-2 bg-surface-container-highest border-none rounded-xl text-sm focus:ring-2 focus:ring-primary-container transition-all font-body"
-          placeholder="Search campaigns..."
+          :placeholder="$t('topbar.search_placeholder')"
           @input="onSearchInput"
         />
       </div>
+
+      <!-- Language Switcher -->
+      <UiLangSwitcher />
 
       <!-- Notification & Help -->
       <div class="flex items-center gap-4">
@@ -36,7 +39,7 @@
             v-if="showNotifications"
             class="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl shadow-xl border border-outline-variant/10 p-4 z-50"
           >
-            <p class="text-sm text-zinc-400 text-center">No new notifications</p>
+            <p class="text-sm text-zinc-400 text-center">{{ $t('topbar.no_notifications') }}</p>
           </div>
         </div>
         <a
@@ -55,6 +58,7 @@
 defineEmits<{ 'toggle-sidebar': [] }>()
 
 const route = useRoute()
+const { t } = useI18n()
 const showNotifications = ref(false)
 
 const searchQuery = useState<string>('campaignSearch', () => '')
@@ -74,14 +78,14 @@ const showDatePicker = computed(() => !hideDatePickerRoutes.includes(route.path)
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
-    '/': 'Dashboard',
-    '/traffic': 'Traffic Analytics',
-    '/earnings': 'Earnings',
-    '/campaigns': 'Campaigns',
-    '/campaigns/create': 'Create Campaign',
-    '/settings': 'Settings',
+    '/': t('nav.dashboard'),
+    '/traffic': t('nav.traffic'),
+    '/earnings': t('nav.earnings'),
+    '/campaigns': t('nav.campaigns'),
+    '/campaigns/create': t('campaigns_page.create_campaign'),
+    '/settings': t('nav.settings'),
   }
-  return titles[route.path] || 'Dashboard'
+  return titles[route.path] || t('nav.dashboard')
 })
 
 // Close notifications dropdown on outside click
