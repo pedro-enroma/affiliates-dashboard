@@ -35,31 +35,31 @@
 
       <p class="text-sm text-on-surface-variant">
         <span class="material-symbols-outlined text-sm align-middle mr-1">info</span>
-        Filtered by <strong>travel date</strong>
+        {{ $t('earnings_page.filtered_by_travel_date') }}
       </p>
     </div>
 
     <!-- Summary KPIs -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
-      <DashboardKpiCard label="Total Revenue" :value="totals.revenue" format="currency" />
-      <DashboardKpiCard label="Total Commission" :value="totals.commission" format="currency" highlight />
-      <DashboardKpiCard label="Bookings" :value="totals.bookings" />
-      <DashboardKpiCard label="Commission Rate" :value="commissionRate" format="percent" />
+      <DashboardKpiCard :label="$t('earnings_page.total_revenue')" :value="totals.revenue" format="currency" />
+      <DashboardKpiCard :label="$t('earnings_page.total_commission')" :value="totals.commission" format="currency" highlight />
+      <DashboardKpiCard :label="$t('dashboard.bookings')" :value="totals.bookings" />
+      <DashboardKpiCard :label="$t('earnings_page.commission_rate')" :value="commissionRate" format="percent" />
     </section>
 
     <!-- Monthly summary -->
     <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
       <div class="p-8 border-b border-outline-variant/10">
-        <h3 class="text-lg font-bold text-on-surface font-headline">Monthly Summary</h3>
+        <h3 class="text-lg font-bold text-on-surface font-headline">{{ $t('earnings_page.monthly_summary') }}</h3>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container-low/50">
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Month</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Bookings</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Revenue</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Commission</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('earnings_page.month') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('dashboard.bookings') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('dashboard.revenue') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('dashboard.commission') }}</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-outline-variant/5">
@@ -81,19 +81,19 @@
     <!-- Individual bookings -->
     <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
       <div class="p-8 border-b border-outline-variant/10">
-        <h3 class="text-lg font-bold text-on-surface font-headline">Bookings ({{ bookings.length }})</h3>
+        <h3 class="text-lg font-bold text-on-surface font-headline">{{ $t('dashboard.bookings') }} ({{ bookings.length }})</h3>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container-low/50">
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking ID</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Travel Date</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking Date</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Tour</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Price</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Commission</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Campaign</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.booking_id') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.travel_date') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.booking_date') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('earnings_page.tour') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('earnings_page.price') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('dashboard.commission') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.campaign') }}</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-outline-variant/5">
@@ -120,6 +120,7 @@
 <script setup lang="ts">
 import type { ActivityBooking, DateRange } from '~/types'
 
+const { t } = useI18n()
 const { affiliate, commissionRate } = useAffiliate()
 const { fetchBookings, summarizeByMonth } = useEarnings()
 const { formatDate } = useFormatDate()
@@ -127,12 +128,12 @@ const { formatDate } = useFormatDate()
 // Earnings has its own date range (not the global one)
 const activePreset = ref('current_month')
 
-const presets = [
-  { value: 'current_month', label: 'Current Month' },
-  { value: 'last_month', label: 'Last Month' },
-  { value: 'next_month', label: 'Next Month' },
-  { value: 'custom', label: 'Custom' },
-]
+const presets = computed(() => [
+  { value: 'current_month', label: t('earnings_page.current_month') },
+  { value: 'last_month', label: t('earnings_page.last_month') },
+  { value: 'next_month', label: t('earnings_page.next_month') },
+  { value: 'custom', label: t('earnings_page.custom') },
+])
 
 function getMonthRange(offset: number): DateRange {
   const now = new Date()

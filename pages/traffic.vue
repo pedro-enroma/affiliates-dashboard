@@ -8,7 +8,7 @@
       <!-- Country breakdown — world map + ranked list -->
       <div class="lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
         <div class="flex justify-between items-center mb-6">
-          <h3 class="text-lg font-bold text-on-surface font-headline">Top Countries</h3>
+          <h3 class="text-lg font-bold text-on-surface font-headline">{{ $t('traffic_page.top_countries') }}</h3>
           <span v-if="countryData.length" class="text-xs text-on-surface-variant">{{ countryData.reduce((s, c) => s + c.sessions, 0).toLocaleString() }} total sessions</span>
         </div>
 
@@ -46,13 +46,13 @@
           </div>
         </div>
         <div v-else class="flex items-center justify-center h-48 text-zinc-400 text-sm">
-          No country data
+          {{ $t('traffic_page.no_country_data') }}
         </div>
       </div>
 
       <!-- Device breakdown — donut with stats -->
       <div class="lg:col-span-4 bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 flex flex-col">
-        <h3 class="text-lg font-bold text-on-surface font-headline mb-6">Devices</h3>
+        <h3 class="text-lg font-bold text-on-surface font-headline mb-6">{{ $t('traffic_page.devices') }}</h3>
         <div v-if="deviceData.length" class="flex-1 flex flex-col items-center justify-center">
           <div class="w-48 h-48 mb-6">
             <ChartsDoughnutChart
@@ -82,7 +82,7 @@
           </div>
         </div>
         <div v-else class="flex-1 flex items-center justify-center text-zinc-400 text-sm">
-          No device data
+          {{ $t('traffic_page.no_device_data') }}
         </div>
       </div>
     </section>
@@ -90,17 +90,17 @@
     <!-- Traffic table -->
     <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
       <div class="p-8 border-b border-outline-variant/10">
-        <h3 class="text-lg font-bold text-on-surface font-headline">Daily Breakdown</h3>
+        <h3 class="text-lg font-bold text-on-surface font-headline">{{ $t('traffic_page.daily_breakdown') }}</h3>
       </div>
       <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse">
           <thead>
             <tr class="bg-surface-container-low/50">
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Traffic Date</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Sessions</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Users</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">New Users</th>
-              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">Page Views</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('traffic_page.traffic_date') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('dashboard.sessions') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('traffic_page.users') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('traffic_page.new_users') }}</th>
+              <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant text-right">{{ $t('traffic_page.page_views') }}</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-outline-variant/5">

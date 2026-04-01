@@ -3,19 +3,19 @@
     <!-- KPI cards -->
     <section class="grid grid-cols-1 md:grid-cols-5 gap-6">
       <DashboardKpiCard
-        label="Sessions"
+        :label="$t('dashboard.sessions')"
         :value="kpis.sessions"
         :change="changes.sessions"
         :progress="progressValues.sessions"
       />
       <DashboardKpiCard
-        label="Bookings"
+        :label="$t('dashboard.bookings')"
         :value="kpis.bookings"
         :change="changes.bookings"
         :progress="progressValues.bookings"
       />
       <DashboardKpiCard
-        label="Revenue"
+        :label="$t('dashboard.revenue')"
         :value="kpis.revenue"
         format="currency"
         :change="changes.revenue"
@@ -23,14 +23,14 @@
         highlight
       />
       <DashboardKpiCard
-        label="Commission"
+        :label="$t('dashboard.commission')"
         :value="kpis.commission"
         format="currency"
         :change="changes.commission"
         :progress="progressValues.commission"
       />
       <DashboardKpiCard
-        label="Conversion Rate"
+        :label="$t('dashboard.conversion_rate')"
         :value="kpis.conversionRate"
         format="percent"
         :change="changes.conversionRate"
