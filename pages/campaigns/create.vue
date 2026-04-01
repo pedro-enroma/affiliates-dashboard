@@ -32,19 +32,6 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
-          Campaign (utm_campaign)
-        </label>
-        <input
-          v-model="form.utm_campaign"
-          required
-          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all font-mono"
-          placeholder="e.g., summer-rome-blog"
-        />
-        <p class="text-xs text-zinc-400 mt-1">Identifies this specific campaign. Lowercase, hyphens allowed.</p>
-      </div>
-
-      <div>
         <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Destination URL</label>
         <input
           v-model="form.destination_url"
@@ -66,7 +53,7 @@
           <span class="text-on-surface-variant">utm_source</span>
           <span class="font-mono text-on-surface">{{ form.utm_source ? slugify(form.utm_source) : '...' }}</span>
           <span class="text-on-surface-variant">utm_campaign</span>
-          <span class="font-mono text-on-surface">{{ form.utm_campaign ? slugify(form.utm_campaign) : '...' }}</span>
+          <span class="font-mono text-on-surface">{{ utmCampaign || '...' }}</span>
         </div>
       </div>
 
@@ -105,7 +92,6 @@ const { createCampaign, generateLink } = useCampaigns()
 const form = reactive({
   campaign_name: '',
   utm_source: '',
-  utm_campaign: '',
   destination_url: '',
 })
 
@@ -119,13 +105,15 @@ function slugify(text: string) {
     .replace(/^-|-$/g, '')
 }
 
+const utmCampaign = computed(() => slugify(form.campaign_name))
+
 const previewLink = computed(() => {
-  if (!affiliate.value || !form.destination_url || !form.utm_campaign || !form.utm_source) return ''
+  if (!affiliate.value || !form.destination_url || !form.campaign_name || !form.utm_source) return ''
   try {
     return generateLink(
       affiliate.value.affiliate_id,
       slugify(form.utm_source),
-      slugify(form.utm_campaign),
+      utmCampaign.value,
       form.destination_url,
     )
   } catch {
@@ -133,18 +121,11 @@ const previewLink = computed(() => {
   }
 })
 
-// Auto-generate utm_campaign from campaign name
-watch(() => form.campaign_name, (name) => {
-  if (form.utm_campaign === '' || form.utm_campaign === slugify(form.campaign_name)) {
-    form.utm_campaign = slugify(name)
-  }
-})
-
 async function handleCreate() {
   error.value = ''
   loading.value = true
 
-  const campaignSlug = slugify(form.utm_source) + '_' + slugify(form.utm_campaign)
+  const campaignSlug = slugify(form.utm_source) + '_' + utmCampaign.value
 
   try {
     await createCampaign({
