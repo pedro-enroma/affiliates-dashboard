@@ -32,14 +32,15 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Destination URL</label>
-        <input
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Destination Product</label>
+        <select
           v-model="form.destination_url"
           required
-          type="url"
           class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-          placeholder="https://enroma.com/tours/colosseum-guided-tour"
-        />
+        >
+          <option value="" disabled>Select a product...</option>
+          <option v-for="p in products" :key="p.url" :value="p.url">{{ p.name }}</option>
+        </select>
       </div>
 
       <!-- UTM Preview -->
@@ -88,6 +89,27 @@
 const router = useRouter()
 const { affiliate } = useAffiliate()
 const { createCampaign, generateLink } = useCampaigns()
+
+const products = [
+  { name: 'Visita Guiada Museos Vaticanos y Capilla Sixtina', url: 'https://www.enroma.com/reserva/museos-vaticanos-sixtina-san-pedro/' },
+  { name: 'Visita Guiada Coliseo, Foro Romano y Palatino', url: 'https://www.enroma.com/reserva/coliseo-foro-y-palatino/' },
+  { name: 'Descuento de 5 € – Tour Vaticano y Coliseo en días distintos', url: 'https://www.enroma.com/reserva/oferta-vaticano-y-coliseo/' },
+  { name: 'Visita Coliseo con Arena de Gladiadores, Foro y Palatino', url: 'https://www.enroma.com/reserva/tour-coliseo-con-arena-de-gladiadores/' },
+  { name: 'Excursión a Pompeya y Nápoles desde Roma en tren de alta velocidad', url: 'https://www.enroma.com/reserva/excursion-pompeya-desde-roma/' },
+  { name: 'Tour Exclusivo: Museos Vaticanos, Capilla Sixtina y Basílica de San Pedro', url: 'https://www.enroma.com/reserva/tour-exclusivo-por-el-vaticano/' },
+  { name: 'Excursión a Florencia y Pisa con subida a la Torre Inclinada desde Roma', url: 'https://www.enroma.com/reserva/excursion-florencia-pisa-desde-roma/' },
+  { name: 'Descuento de 10 € – Oferta Tour Coliseo con Arena y Museos Vaticanos', url: 'https://www.enroma.com/reserva/oferta-tour-coliseo-con-arena-y-museos-vaticanos/' },
+  { name: 'Tour Museos Vaticanos en grupo reducido', url: 'https://www.enroma.com/reserva/tour-vaticano-en-grupo-reducido/' },
+  { name: 'Tour Coliseo y Foro Romano adaptado a niños – Tour de grupo', url: 'https://www.enroma.com/reserva/tour-coliseo-para-ninos/' },
+  { name: 'Tour por la Via Appia y las Catacumbas de Roma', url: 'https://www.enroma.com/reserva/basilicas-y-catacumbas/' },
+  { name: 'Viaje al Centro del Mundo: Tour de grupo centro de Roma para niños', url: 'https://www.enroma.com/reserva/tour-centro-de-roma-para-ninos/' },
+  { name: 'Oferta: Coliseo y Vaticano adaptado a niños – Descubre Roma en familia', url: 'https://www.enroma.com/reserva/coliseo-vaticano-adaptado-a-ninos/' },
+  { name: 'Menú degustación en Osteria Oliva (cerca del Coliseo)', url: 'https://www.enroma.com/reserva/menu-degustacion-en-osteria-oliva-cerca-del-coliseo/' },
+  { name: 'Excursión a Venecia desde Roma en tren de alta velocidad', url: 'https://www.enroma.com/reserva/excursion-a-venecia-desde-roma/' },
+  { name: 'Tour Museos Vaticanos y Capilla Sixtina adaptado a niños: en grupo', url: 'https://www.enroma.com/reserva/tour-museos-vaticanos-y-capilla-sixtina-adaptado-a-ninos-en-grupo/' },
+  { name: 'Excursión a la Toscana desde Roma con degustación de productos y vinos locales', url: 'https://www.enroma.com/reserva/excursion-de-la-toscana-desde-roma/' },
+  { name: 'Tour Coliseo Subterráneo, Arena, Foro y Palatino en grupo súper reducido', url: 'https://www.enroma.com/reserva/visita-coliseo-subterraneo-foro-y-palatino/' },
+]
 
 const form = reactive({
   campaign_name: '',
