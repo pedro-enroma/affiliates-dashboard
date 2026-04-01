@@ -1,20 +1,20 @@
 <template>
   <section class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] overflow-hidden">
     <div class="p-8 border-b border-outline-variant/10">
-      <h3 class="text-xl font-bold text-on-surface font-headline">Recent Bookings</h3>
+      <h3 class="text-xl font-bold text-on-surface font-headline">{{ $t('dashboard.recent_bookings') }}</h3>
     </div>
 
     <div v-if="bookings.length" class="overflow-x-auto">
       <table class="w-full text-left border-collapse">
         <thead>
           <tr class="bg-surface-container-low/50">
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking ID</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Travel Date</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Booking Date</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Tour Name</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Price (EUR)</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Campaign</th>
-            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Status</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.booking_id') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.travel_date') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.booking_date') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.tour_name') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.price_eur') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.campaign') }}</th>
+            <th class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">{{ $t('bookings.status') }}</th>
           </tr>
         </thead>
         <tbody class="divide-y divide-outline-variant/5">
@@ -43,7 +43,7 @@
     </div>
 
     <div v-else class="text-center py-12 text-zinc-400 text-sm">
-      No bookings yet
+      {{ $t('dashboard.no_bookings') }}
     </div>
   </section>
 </template>

@@ -2,10 +2,10 @@
   <div class="max-w-2xl space-y-8">
     <!-- Profile -->
     <form @submit.prevent="updateProfile" class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 space-y-5">
-      <h2 class="text-lg font-bold text-on-surface font-headline">Profile</h2>
+      <h2 class="text-lg font-bold text-on-surface font-headline">{{ $t('settings_page.profile') }}</h2>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Display Name</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('settings_page.display_name') }}</label>
         <input
           v-model="profileForm.display_name"
           required
@@ -14,7 +14,7 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Website URL</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('settings_page.website_url') }}</label>
         <input
           v-model="profileForm.website_url"
           type="url"
@@ -24,12 +24,12 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Bio</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('settings_page.bio') }}</label>
         <textarea
           v-model="profileForm.bio"
           rows="3"
           class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all resize-none"
-          placeholder="Tell us about yourself..."
+          :placeholder="$t('settings_page.bio_placeholder')"
         />
       </div>
 
@@ -42,16 +42,16 @@
         :disabled="profileLoading"
         class="py-2.5 px-6 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
       >
-        {{ profileLoading ? 'Saving...' : 'Save Profile' }}
+        {{ profileLoading ? $t('settings_page.saving') : $t('settings_page.save_profile') }}
       </button>
     </form>
 
     <!-- Change Password -->
     <form @submit.prevent="changePassword" class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 space-y-5">
-      <h2 class="text-lg font-bold text-on-surface font-headline">Change Password</h2>
+      <h2 class="text-lg font-bold text-on-surface font-headline">{{ $t('settings_page.change_password') }}</h2>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">New Password</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('settings_page.new_password') }}</label>
         <input
           v-model="passwordForm.password"
           type="password"
@@ -63,7 +63,7 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Confirm Password</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('settings_page.confirm_password') }}</label>
         <input
           v-model="passwordForm.confirm"
           type="password"
@@ -82,28 +82,28 @@
         :disabled="passwordLoading"
         class="py-2.5 px-6 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
       >
-        {{ passwordLoading ? 'Updating...' : 'Update Password' }}
+        {{ passwordLoading ? $t('settings_page.updating') : $t('settings_page.update_password') }}
       </button>
     </form>
 
     <!-- Account info (read-only) -->
     <div class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8">
-      <h2 class="text-lg font-bold text-on-surface font-headline mb-6">Account Info</h2>
+      <h2 class="text-lg font-bold text-on-surface font-headline mb-6">{{ $t('settings_page.account_info') }}</h2>
       <dl class="space-y-4 text-sm">
         <div class="flex justify-between py-2 border-b border-outline-variant/10">
-          <dt class="text-on-surface-variant font-semibold">Affiliate ID</dt>
+          <dt class="text-on-surface-variant font-semibold">{{ $t('settings_page.affiliate_id') }}</dt>
           <dd class="text-on-surface font-mono">{{ affiliate?.affiliate_id }}</dd>
         </div>
         <div class="flex justify-between py-2 border-b border-outline-variant/10">
-          <dt class="text-on-surface-variant font-semibold">Email</dt>
+          <dt class="text-on-surface-variant font-semibold">{{ $t('settings_page.email') }}</dt>
           <dd class="text-on-surface">{{ affiliate?.email }}</dd>
         </div>
         <div class="flex justify-between py-2 border-b border-outline-variant/10">
-          <dt class="text-on-surface-variant font-semibold">Commission Rate</dt>
+          <dt class="text-on-surface-variant font-semibold">{{ $t('earnings_page.commission_rate') }}</dt>
           <dd class="text-on-surface font-bold">{{ commissionRate }}%</dd>
         </div>
         <div class="flex justify-between py-2">
-          <dt class="text-on-surface-variant font-semibold">Member since</dt>
+          <dt class="text-on-surface-variant font-semibold">{{ $t('settings_page.member_since') }}</dt>
           <dd class="text-on-surface">{{ formatDate(affiliate?.created_at || '') }}</dd>
         </div>
       </dl>
@@ -115,6 +115,7 @@
 const client = useSupabaseClient()
 const { affiliate, commissionRate, fetchProfile } = useAffiliate()
 const { formatDate } = useFormatDate()
+const { t } = useI18n()
 
 // Profile form
 const profileForm = reactive({
@@ -160,7 +161,7 @@ async function updateProfile() {
     profileMsg.value = error.message
     profileError.value = true
   } else {
-    profileMsg.value = 'Profile updated'
+    profileMsg.value = t('settings_page.profile_updated')
     await fetchProfile()
   }
   profileLoading.value = false
@@ -171,7 +172,7 @@ async function changePassword() {
   passwordError.value = false
 
   if (passwordForm.password !== passwordForm.confirm) {
-    passwordMsg.value = 'Passwords do not match'
+    passwordMsg.value = t('settings_page.passwords_no_match')
     passwordError.value = true
     return
   }
@@ -183,7 +184,7 @@ async function changePassword() {
     passwordMsg.value = error.message
     passwordError.value = true
   } else {
-    passwordMsg.value = 'Password updated'
+    passwordMsg.value = t('settings_page.password_updated')
     passwordForm.password = ''
     passwordForm.confirm = ''
   }

@@ -4,50 +4,50 @@
       <NuxtLink to="/campaigns" class="text-zinc-400 hover:text-primary transition-colors">
         <span class="material-symbols-outlined">arrow_back</span>
       </NuxtLink>
-      <h1 class="text-2xl font-bold text-on-surface font-headline">Create Campaign</h1>
+      <h1 class="text-2xl font-bold text-on-surface font-headline">{{ $t('campaigns_page.create_campaign') }}</h1>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
       <!-- Left: Form -->
       <form @submit.prevent="handleCreate" class="lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 space-y-5 self-start">
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Campaign Name</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('campaigns_page.campaign_name') }}</label>
           <input
             v-model="form.campaign_name"
             required
             class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-            placeholder="e.g., Summer Rome Blog Post"
+            :placeholder="$t('campaigns_page.campaign_name_placeholder')"
           />
         </div>
 
         <div>
           <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
-            Source (utm_source)
+            {{ $t('campaigns_page.source') }}
           </label>
           <input
             v-model="form.utm_source"
             required
             class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-            placeholder="e.g., myblog.com, instagram, youtube"
+            :placeholder="$t('campaigns_page.source_placeholder')"
           />
-          <p class="text-xs text-zinc-400 mt-1">Website or platform where the link will be shown.</p>
+          <p class="text-xs text-zinc-400 mt-1">{{ $t('campaigns_page.source_help') }}</p>
         </div>
 
         <!-- Selected product display -->
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Selected Product</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('campaigns_page.selected_product') }}</label>
           <div v-if="selectedProduct" class="p-3 bg-primary-container/10 border border-primary-container/30 rounded-xl text-sm text-on-surface font-semibold flex items-center justify-between">
             <span>{{ selectedProduct.name }}</span>
             <button type="button" class="text-zinc-400 hover:text-error" @click="form.destination_url = ''">
               <span class="material-symbols-outlined text-sm">close</span>
             </button>
           </div>
-          <p v-else class="text-sm text-zinc-400 py-2">Select a product from the grid →</p>
+          <p v-else class="text-sm text-zinc-400 py-2">{{ $t('campaigns_page.select_product') }}</p>
         </div>
 
         <!-- UTM Preview -->
         <div class="p-4 bg-surface-container-low rounded-xl space-y-3">
-          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">UTM Parameters</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">{{ $t('campaigns_page.utm_parameters') }}</p>
           <div class="grid grid-cols-2 gap-2 text-sm">
             <span class="text-on-surface-variant">affiliate_id</span>
             <span class="font-mono text-on-surface">{{ affiliate?.affiliate_id || '...' }}</span>
@@ -62,7 +62,7 @@
 
         <!-- Generated Link Preview -->
         <div v-if="previewLink" class="p-4 bg-surface-container-low rounded-xl">
-          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Generated Link</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">{{ $t('campaigns_page.generated_link') }}</p>
           <code class="text-sm text-on-surface break-all font-mono">{{ previewLink }}</code>
         </div>
 
@@ -73,14 +73,14 @@
             to="/campaigns"
             class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-zinc-500 bg-surface-container-low hover:bg-surface-container-high transition-colors text-center"
           >
-            Cancel
+            {{ $t('campaigns_page.cancel') }}
           </NuxtLink>
           <button
             type="submit"
             :disabled="loading || !form.destination_url"
             class="flex-1 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
           >
-            {{ loading ? 'Creating...' : 'Create Campaign' }}
+            {{ loading ? $t('campaigns_page.creating') : $t('campaigns_page.create_campaign') }}
           </button>
         </div>
       </form>

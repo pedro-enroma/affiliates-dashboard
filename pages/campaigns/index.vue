@@ -19,7 +19,7 @@
           </div>
           <button
             class="p-2 text-zinc-400 hover:text-error transition-colors rounded-lg hover:bg-red-50"
-            title="Delete"
+            :title="$t('campaigns_page.delete')"
             @click="handleDelete(c.id)"
           >
             <span class="material-symbols-outlined text-lg">delete</span>
@@ -28,7 +28,7 @@
 
         <!-- Generated link -->
         <div class="mt-4 p-4 bg-surface-container-low rounded-xl">
-          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Affiliate Link</p>
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">{{ $t('campaigns_page.affiliate_link') }}</p>
           <div class="flex items-center gap-3">
             <code class="flex-1 text-sm text-on-surface break-all font-mono">{{ getLink(c) }}</code>
             <button
@@ -36,7 +36,7 @@
               @click="copyLink(c)"
             >
               <span class="material-symbols-outlined text-sm">content_copy</span>
-              Copy
+              {{ $t('campaigns_page.copy') }}
             </button>
           </div>
         </div>
@@ -45,13 +45,13 @@
 
     <div v-else class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-16 text-center">
       <span class="material-symbols-outlined text-5xl text-zinc-300 mb-4">campaign</span>
-      <p class="text-zinc-400 mb-4">No campaigns yet</p>
+      <p class="text-zinc-400 mb-4">{{ $t('campaigns_page.no_campaigns') }}</p>
       <NuxtLink
         to="/campaigns/create"
         class="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
       >
         <span class="material-symbols-outlined text-sm">add</span>
-        Create your first campaign
+        {{ $t('campaigns_page.create_first') }}
       </NuxtLink>
     </div>
   </div>
