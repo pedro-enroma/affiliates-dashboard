@@ -19,7 +19,7 @@ export default defineNuxtConfig({
       { code: 'it', name: 'Italiano', file: 'it.json' },
     ],
     defaultLocale: 'en',
-    langDir: 'i18n/',
+    langDir: 'locales',
     strategy: 'no_prefix',
     detectBrowserLanguage: {
       useCookie: true,
