@@ -8,12 +8,10 @@
     <!-- Logo -->
     <div class="flex flex-col gap-1 mb-10">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary">
-          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
-        </div>
+        <img src="/images/enroma-logo.png" alt="EnRoma.com" class="h-10 w-auto" />
         <div>
-          <h1 class="text-xl font-bold text-emerald-900 tracking-tight font-headline">NUMAtours</h1>
-          <p class="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">Affiliate Portal</p>
+          <h1 class="text-xl font-bold text-emerald-900 tracking-tight font-headline">EnRoma.com</h1>
+          <p class="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">{{ $t('brand_sub_affiliate') }}</p>
         </div>
       </div>
     </div>
@@ -54,7 +52,7 @@
           class="material-symbols-outlined"
           :style="isActive('/settings') ? `font-variation-settings: 'FILL' 1` : ''"
         >settings</span>
-        <span>Settings</span>
+        <span>{{ $t('nav.settings') }}</span>
       </NuxtLink>
     </nav>
 
@@ -75,7 +73,7 @@
         class="w-full text-left text-sm text-zinc-500 hover:text-error transition-colors mb-4 px-1"
         @click="signOut"
       >
-        Sign out
+        {{ $t('nav.sign_out') }}
       </button>
 
       <!-- New Campaign button -->
@@ -85,7 +83,7 @@
         @click="$emit('close')"
       >
         <span class="material-symbols-outlined text-sm">add</span>
-        New Campaign
+        {{ $t('nav.new_campaign') }}
       </NuxtLink>
     </div>
   </aside>
@@ -109,12 +107,14 @@ const initials = computed(() => {
     .slice(0, 2)
 })
 
-const mainNavItems = [
-  { path: '/', label: 'Dashboard', icon: 'dashboard' },
-  { path: '/traffic', label: 'Traffic', icon: 'analytics' },
-  { path: '/earnings', label: 'Earnings', icon: 'payments' },
-  { path: '/campaigns', label: 'Campaigns', icon: 'campaign' },
-]
+const { t } = useI18n()
+
+const mainNavItems = computed(() => [
+  { path: '/', label: t('nav.dashboard'), icon: 'dashboard' },
+  { path: '/traffic', label: t('nav.traffic'), icon: 'analytics' },
+  { path: '/earnings', label: t('nav.earnings'), icon: 'payments' },
+  { path: '/campaigns', label: t('nav.campaigns'), icon: 'campaign' },
+])
 
 function isActive(path: string) {
   if (path === '/') return route.path === '/'

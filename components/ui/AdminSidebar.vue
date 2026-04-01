@@ -5,16 +5,13 @@
       open ? 'translate-x-0' : '-translate-x-full',
     ]"
   >
-    <!-- Logo -->
     <div class="flex flex-col gap-1 mb-10">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-primary-container flex items-center justify-center text-on-primary">
-          <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
-        </div>
+        <img src="/images/enroma-logo.png" alt="EnRoma.com" class="h-10 w-auto" />
         <div>
-          <h1 class="text-xl font-bold text-emerald-900 tracking-tight font-headline">NUMAtours</h1>
+          <h1 class="text-xl font-bold text-emerald-900 tracking-tight font-headline">EnRoma.com</h1>
           <div class="flex items-center gap-2">
-            <p class="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">Admin</p>
+            <p class="text-[10px] uppercase tracking-widest text-emerald-600 font-bold">{{ $t('brand_sub_admin') }}</p>
             <span class="bg-primary text-on-primary text-[8px] font-bold px-1.5 py-0.5 rounded-full uppercase">Admin</span>
           </div>
         </div>
@@ -57,7 +54,7 @@
           class="material-symbols-outlined"
           :style="isActive('/admin/settings') ? `font-variation-settings: 'FILL' 1` : ''"
         >settings</span>
-        <span>Settings</span>
+        <span>{{ $t('nav.settings') }}</span>
       </NuxtLink>
     </nav>
 
@@ -77,7 +74,7 @@
         class="w-full text-left text-sm text-zinc-500 hover:text-error transition-colors px-1"
         @click="signOut"
       >
-        Sign out
+        {{ $t('nav.sign_out') }}
       </button>
     </div>
   </aside>
@@ -91,11 +88,13 @@ const route = useRoute()
 const client = useSupabaseClient()
 const user = useSupabaseUser()
 
-const mainNavItems = [
-  { path: '/admin', label: 'Dashboard', icon: 'dashboard' },
-  { path: '/admin/affiliates', label: 'Affiliates', icon: 'group' },
-  { path: '/admin/campaigns', label: 'Campaigns', icon: 'campaign' },
-]
+const { t } = useI18n()
+
+const mainNavItems = computed(() => [
+  { path: '/admin', label: t('nav.dashboard'), icon: 'dashboard' },
+  { path: '/admin/affiliates', label: t('nav.affiliates'), icon: 'group' },
+  { path: '/admin/campaigns', label: t('nav.campaigns'), icon: 'campaign' },
+])
 
 function isActive(path: string) {
   if (path === '/admin') return route.path === '/admin'
