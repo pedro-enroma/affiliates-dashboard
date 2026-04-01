@@ -4,7 +4,7 @@
       class="flex items-center gap-1 px-2 py-1 rounded-lg text-sm font-semibold text-on-surface-variant hover:bg-surface-container-low transition-colors"
       @click="open = !open"
     >
-      <span class="material-symbols-outlined text-lg">translate</span>
+      <span class="material-symbols-outlined text-lg">language</span>
       <span class="uppercase text-xs font-bold tracking-wide">{{ locale }}</span>
     </button>
 
