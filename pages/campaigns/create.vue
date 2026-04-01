@@ -51,7 +51,7 @@
           <span class="text-on-surface-variant">utm_medium</span>
           <span class="font-mono text-on-surface">affiliate</span>
           <span class="text-on-surface-variant">utm_source</span>
-          <span class="font-mono text-on-surface">{{ form.utm_source ? slugify(form.utm_source) : '...' }}</span>
+          <span class="font-mono text-on-surface">{{ form.utm_source ? form.utm_source.toLowerCase().trim() : '...' }}</span>
           <span class="text-on-surface-variant">utm_campaign</span>
           <span class="font-mono text-on-surface">{{ utmCampaign || '...' }}</span>
         </div>
@@ -112,7 +112,7 @@ const previewLink = computed(() => {
   try {
     return generateLink(
       affiliate.value.affiliate_id,
-      slugify(form.utm_source),
+      form.utm_source.toLowerCase().trim(),
       utmCampaign.value,
       form.destination_url,
     )
@@ -125,7 +125,7 @@ async function handleCreate() {
   error.value = ''
   loading.value = true
 
-  const campaignSlug = slugify(form.utm_source) + '_' + utmCampaign.value
+  const campaignSlug = form.utm_source.toLowerCase().trim() + '_' + utmCampaign.value
 
   try {
     await createCampaign({
