@@ -9,8 +9,8 @@
     <h2 class="font-headline text-2xl font-bold text-on-surface">{{ pageTitle }}</h2>
 
     <div class="flex items-center gap-6">
-      <!-- Date Range Picker -->
-      <UiDateRangePicker />
+      <!-- Date Range Picker (hidden on pages with own date controls) -->
+      <UiDateRangePicker v-if="showDatePicker" />
 
       <!-- Search -->
       <div class="relative w-64 hidden md:block">
@@ -68,6 +68,9 @@ function onSearchInput(e: Event) {
     searchQuery.value = val
   }, 300)
 }
+
+const hideDatePickerRoutes = ['/earnings', '/campaigns', '/campaigns/create']
+const showDatePicker = computed(() => !hideDatePickerRoutes.includes(route.path))
 
 const pageTitle = computed(() => {
   const titles: Record<string, string> = {
