@@ -19,15 +19,29 @@
       </div>
 
       <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Campaign Slug</label>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
+          Source (utm_source)
+        </label>
         <input
-          v-model="form.campaign_slug"
+          v-model="form.utm_source"
           required
-          pattern="[a-z0-9-]+"
+          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
+          placeholder="e.g., myblog.com, instagram, youtube"
+        />
+        <p class="text-xs text-zinc-400 mt-1">Website or platform where the link will be shown.</p>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
+          Campaign (utm_campaign)
+        </label>
+        <input
+          v-model="form.utm_campaign"
+          required
           class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all font-mono"
           placeholder="e.g., summer-rome-blog"
         />
-        <p class="text-xs text-zinc-400 mt-1">Lowercase letters, numbers, and hyphens only.</p>
+        <p class="text-xs text-zinc-400 mt-1">Identifies this specific campaign. Lowercase, hyphens allowed.</p>
       </div>
 
       <div>
@@ -41,35 +55,25 @@
         />
       </div>
 
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Type</label>
-        <select
-          v-model="form.campaign_type"
-          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-        >
-          <option value="link">Link</option>
-          <option value="widget">Widget</option>
-          <option value="banner">Banner</option>
-        </select>
+      <!-- UTM Preview -->
+      <div class="p-4 bg-surface-container-low rounded-xl space-y-3">
+        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">UTM Parameters</p>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <span class="text-on-surface-variant">affiliate_id</span>
+          <span class="font-mono text-on-surface">{{ affiliate?.affiliate_id || '...' }}</span>
+          <span class="text-on-surface-variant">utm_medium</span>
+          <span class="font-mono text-on-surface">affiliate</span>
+          <span class="text-on-surface-variant">utm_source</span>
+          <span class="font-mono text-on-surface">{{ form.utm_source ? slugify(form.utm_source) : '...' }}</span>
+          <span class="text-on-surface-variant">utm_campaign</span>
+          <span class="font-mono text-on-surface">{{ form.utm_campaign ? slugify(form.utm_campaign) : '...' }}</span>
+        </div>
       </div>
 
-      <!-- Preview -->
+      <!-- Generated Link Preview -->
       <div v-if="previewLink" class="p-4 bg-surface-container-low rounded-xl">
-        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Generated Link Preview</p>
+        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Generated Link</p>
         <code class="text-sm text-on-surface break-all font-mono">{{ previewLink }}</code>
-      </div>
-
-      <!-- Widget embed code -->
-      <div v-if="form.campaign_type === 'widget' && previewLink" class="p-4 bg-surface-container-low rounded-xl">
-        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Widget Embed Code</p>
-        <pre class="text-sm text-on-surface font-mono whitespace-pre-wrap break-all">{{ widgetCode }}</pre>
-        <button
-          type="button"
-          class="mt-2 text-sm text-primary font-bold hover:underline"
-          @click="copyWidget"
-        >
-          Copy embed code
-        </button>
       </div>
 
       <p v-if="error" class="text-sm text-error">{{ error }}</p>
@@ -100,38 +104,13 @@ const { createCampaign, generateLink } = useCampaigns()
 
 const form = reactive({
   campaign_name: '',
-  campaign_slug: '',
+  utm_source: '',
+  utm_campaign: '',
   destination_url: '',
-  campaign_type: 'link',
 })
 
 const error = ref('')
 const loading = ref(false)
-
-const previewLink = computed(() => {
-  if (!affiliate.value || !form.destination_url || !form.campaign_slug) return ''
-  try {
-    return generateLink(affiliate.value.affiliate_id, form.campaign_slug, form.destination_url)
-  } catch {
-    return ''
-  }
-})
-
-const widgetCode = computed(() => {
-  if (!previewLink.value) return ''
-  return `<iframe src="${previewLink.value}" width="100%" height="600" frameborder="0" style="border:none;"></iframe>`
-})
-
-async function copyWidget() {
-  await navigator.clipboard.writeText(widgetCode.value)
-}
-
-// Auto-generate slug from name
-watch(() => form.campaign_name, (name) => {
-  if (form.campaign_slug === '' || form.campaign_slug === slugify(form.campaign_name)) {
-    form.campaign_slug = slugify(name)
-  }
-})
 
 function slugify(text: string) {
   return text
@@ -140,16 +119,39 @@ function slugify(text: string) {
     .replace(/^-|-$/g, '')
 }
 
+const previewLink = computed(() => {
+  if (!affiliate.value || !form.destination_url || !form.utm_campaign || !form.utm_source) return ''
+  try {
+    return generateLink(
+      affiliate.value.affiliate_id,
+      slugify(form.utm_source),
+      slugify(form.utm_campaign),
+      form.destination_url,
+    )
+  } catch {
+    return ''
+  }
+})
+
+// Auto-generate utm_campaign from campaign name
+watch(() => form.campaign_name, (name) => {
+  if (form.utm_campaign === '' || form.utm_campaign === slugify(form.campaign_name)) {
+    form.utm_campaign = slugify(name)
+  }
+})
+
 async function handleCreate() {
   error.value = ''
   loading.value = true
 
+  const campaignSlug = slugify(form.utm_source) + '_' + slugify(form.utm_campaign)
+
   try {
     await createCampaign({
-      campaign_slug: form.campaign_slug,
+      campaign_slug: campaignSlug,
       campaign_name: form.campaign_name,
       destination_url: form.destination_url,
-      campaign_type: form.campaign_type,
+      campaign_type: 'link',
     })
     router.push('/campaigns')
   } catch (e: any) {

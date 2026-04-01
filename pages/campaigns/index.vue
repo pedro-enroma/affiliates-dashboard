@@ -67,7 +67,11 @@ const campaigns = ref<AffiliateCampaign[]>([])
 
 function getLink(c: AffiliateCampaign) {
   if (!affiliate.value) return ''
-  return generateLink(affiliate.value.affiliate_id, c.campaign_slug, c.destination_url)
+  // campaign_slug format: "source_campaign" — split to extract utm_source and utm_campaign
+  const parts = c.campaign_slug.split('_')
+  const utmSource = parts[0] || c.campaign_slug
+  const utmCampaign = parts.slice(1).join('_') || c.campaign_slug
+  return generateLink(affiliate.value.affiliate_id, utmSource, utmCampaign, c.destination_url)
 }
 
 async function copyLink(c: AffiliateCampaign) {

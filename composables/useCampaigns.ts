@@ -62,11 +62,13 @@ export function useCampaigns() {
     if (error) throw error
   }
 
-  function generateLink(affiliateId: string, campaignSlug: string, destinationUrl: string): string {
+  function generateLink(affiliateId: string, utmSource: string, utmCampaign: string, destinationUrl: string): string {
     const url = new URL(destinationUrl)
     url.searchParams.set('affiliate_id', affiliateId)
-    url.searchParams.set('first_campaign_id', campaignSlug)
-    return url.toString()
+    url.searchParams.set('utm_medium', 'affiliate')
+    url.searchParams.set('utm_source', utmSource)
+    url.searchParams.set('utm_campaign', utmCampaign)
+    return url.toString().toLowerCase()
   }
 
   return {
