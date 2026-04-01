@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-2xl space-y-8">
+  <div class="space-y-8">
     <div class="flex items-center gap-4">
       <NuxtLink to="/campaigns" class="text-zinc-400 hover:text-primary transition-colors">
         <span class="material-symbols-outlined">arrow_back</span>
@@ -7,81 +7,118 @@
       <h1 class="text-2xl font-bold text-on-surface font-headline">Create Campaign</h1>
     </div>
 
-    <form @submit.prevent="handleCreate" class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 space-y-5">
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Campaign Name</label>
-        <input
-          v-model="form.campaign_name"
-          required
-          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-          placeholder="e.g., Summer Rome Blog Post"
-        />
-      </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <!-- Left: Form -->
+      <form @submit.prevent="handleCreate" class="lg:col-span-5 bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(25,28,28,0.03)] p-8 space-y-5 self-start">
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Campaign Name</label>
+          <input
+            v-model="form.campaign_name"
+            required
+            class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
+            placeholder="e.g., Summer Rome Blog Post"
+          />
+        </div>
 
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
-          Source (utm_source)
-        </label>
-        <input
-          v-model="form.utm_source"
-          required
-          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-          placeholder="e.g., myblog.com, instagram, youtube"
-        />
-        <p class="text-xs text-zinc-400 mt-1">Website or platform where the link will be shown.</p>
-      </div>
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">
+            Source (utm_source)
+          </label>
+          <input
+            v-model="form.utm_source"
+            required
+            class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
+            placeholder="e.g., myblog.com, instagram, youtube"
+          />
+          <p class="text-xs text-zinc-400 mt-1">Website or platform where the link will be shown.</p>
+        </div>
 
-      <div>
-        <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Destination Product</label>
-        <select
-          v-model="form.destination_url"
-          required
-          class="w-full px-4 py-2.5 rounded-xl text-sm border border-outline-variant/30 focus:ring-2 focus:ring-primary-container transition-all"
-        >
-          <option value="" disabled>Select a product...</option>
-          <option v-for="p in products" :key="p.url" :value="p.url">{{ p.name }}</option>
-        </select>
-      </div>
+        <!-- Selected product display -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Selected Product</label>
+          <div v-if="selectedProduct" class="p-3 bg-primary-container/10 border border-primary-container/30 rounded-xl text-sm text-on-surface font-semibold flex items-center justify-between">
+            <span>{{ selectedProduct.name }}</span>
+            <button type="button" class="text-zinc-400 hover:text-error" @click="form.destination_url = ''">
+              <span class="material-symbols-outlined text-sm">close</span>
+            </button>
+          </div>
+          <p v-else class="text-sm text-zinc-400 py-2">Select a product from the grid →</p>
+        </div>
 
-      <!-- UTM Preview -->
-      <div class="p-4 bg-surface-container-low rounded-xl space-y-3">
-        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">UTM Parameters</p>
-        <div class="grid grid-cols-2 gap-2 text-sm">
-          <span class="text-on-surface-variant">affiliate_id</span>
-          <span class="font-mono text-on-surface">{{ affiliate?.affiliate_id || '...' }}</span>
-          <span class="text-on-surface-variant">utm_medium</span>
-          <span class="font-mono text-on-surface">affiliate</span>
-          <span class="text-on-surface-variant">utm_source</span>
-          <span class="font-mono text-on-surface">{{ form.utm_source ? form.utm_source.toLowerCase().trim() : '...' }}</span>
-          <span class="text-on-surface-variant">utm_campaign</span>
-          <span class="font-mono text-on-surface">{{ utmCampaign || '...' }}</span>
+        <!-- UTM Preview -->
+        <div class="p-4 bg-surface-container-low rounded-xl space-y-3">
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant">UTM Parameters</p>
+          <div class="grid grid-cols-2 gap-2 text-sm">
+            <span class="text-on-surface-variant">affiliate_id</span>
+            <span class="font-mono text-on-surface">{{ affiliate?.affiliate_id || '...' }}</span>
+            <span class="text-on-surface-variant">utm_medium</span>
+            <span class="font-mono text-on-surface">affiliate</span>
+            <span class="text-on-surface-variant">utm_source</span>
+            <span class="font-mono text-on-surface">{{ form.utm_source ? form.utm_source.toLowerCase().trim() : '...' }}</span>
+            <span class="text-on-surface-variant">utm_campaign</span>
+            <span class="font-mono text-on-surface">{{ utmCampaign || '...' }}</span>
+          </div>
+        </div>
+
+        <!-- Generated Link Preview -->
+        <div v-if="previewLink" class="p-4 bg-surface-container-low rounded-xl">
+          <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Generated Link</p>
+          <code class="text-sm text-on-surface break-all font-mono">{{ previewLink }}</code>
+        </div>
+
+        <p v-if="error" class="text-sm text-error">{{ error }}</p>
+
+        <div class="flex gap-3 pt-2">
+          <NuxtLink
+            to="/campaigns"
+            class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-zinc-500 bg-surface-container-low hover:bg-surface-container-high transition-colors text-center"
+          >
+            Cancel
+          </NuxtLink>
+          <button
+            type="submit"
+            :disabled="loading || !form.destination_url"
+            class="flex-1 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
+          >
+            {{ loading ? 'Creating...' : 'Create Campaign' }}
+          </button>
+        </div>
+      </form>
+
+      <!-- Right: Product Grid -->
+      <div class="lg:col-span-7">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+          <button
+            v-for="p in products"
+            :key="p.url"
+            type="button"
+            :class="[
+              'p-5 rounded-xl text-left transition-all duration-200 border-2',
+              form.destination_url === p.url
+                ? 'bg-primary-container/10 border-primary-container shadow-md'
+                : 'bg-surface-container-lowest border-transparent shadow-[0px_20px_40px_rgba(25,28,28,0.03)] hover:border-outline-variant/30 hover:shadow-md',
+            ]"
+            @click="form.destination_url = p.url"
+          >
+            <div class="flex items-start gap-3">
+              <div
+                :class="[
+                  'w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5',
+                  form.destination_url === p.url ? 'bg-primary-container text-on-primary' : 'bg-surface-container-high text-on-surface-variant',
+                ]"
+              >
+                <span class="material-symbols-outlined text-lg">{{ getProductIcon(p.name) }}</span>
+              </div>
+              <div class="min-w-0">
+                <p :class="['text-sm font-semibold leading-tight', form.destination_url === p.url ? 'text-primary' : 'text-on-surface']">
+                  {{ p.name }}
+                </p>
+              </div>
+            </div>
+          </button>
         </div>
       </div>
-
-      <!-- Generated Link Preview -->
-      <div v-if="previewLink" class="p-4 bg-surface-container-low rounded-xl">
-        <p class="text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-2">Generated Link</p>
-        <code class="text-sm text-on-surface break-all font-mono">{{ previewLink }}</code>
-      </div>
-
-      <p v-if="error" class="text-sm text-error">{{ error }}</p>
-
-      <div class="flex gap-3 pt-2">
-        <NuxtLink
-          to="/campaigns"
-          class="flex-1 py-2.5 rounded-xl text-sm font-semibold text-zinc-500 bg-surface-container-low hover:bg-surface-container-high transition-colors text-center"
-        >
-          Cancel
-        </NuxtLink>
-        <button
-          type="submit"
-          :disabled="loading"
-          class="flex-1 py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
-        >
-          {{ loading ? 'Creating...' : 'Create Campaign' }}
-        </button>
-      </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -120,11 +157,24 @@ const form = reactive({
 const error = ref('')
 const loading = ref(false)
 
+const selectedProduct = computed(() => products.find((p) => p.url === form.destination_url))
+
 function slugify(text: string) {
   return text
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '')
+}
+
+function getProductIcon(name: string): string {
+  const n = name.toLowerCase()
+  if (n.includes('vaticano') || n.includes('museos') || n.includes('sixtina')) return 'church'
+  if (n.includes('coliseo') || n.includes('foro') || n.includes('gladiador') || n.includes('subterráneo')) return 'account_balance'
+  if (n.includes('pompeya') || n.includes('florencia') || n.includes('pisa') || n.includes('venecia') || n.includes('toscana')) return 'train'
+  if (n.includes('niño') || n.includes('familia')) return 'family_restroom'
+  if (n.includes('catacumba') || n.includes('appia')) return 'explore'
+  if (n.includes('menú') || n.includes('osteria')) return 'restaurant'
+  return 'tour'
 }
 
 const utmCampaign = computed(() => slugify(form.campaign_name))
