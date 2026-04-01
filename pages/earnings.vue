@@ -1,5 +1,44 @@
 <template>
   <div class="space-y-8">
+    <!-- Own date picker for earnings -->
+    <div class="flex items-center justify-between">
+      <div class="flex bg-surface-container-low p-1 rounded-lg">
+        <button
+          v-for="p in presets"
+          :key="p.value"
+          :class="[
+            'px-4 py-2 text-sm font-bold rounded-lg transition-all',
+            activePreset === p.value ? 'bg-white shadow-sm text-on-surface' : 'text-zinc-500 hover:text-on-surface',
+          ]"
+          @click="selectPreset(p.value)"
+        >
+          {{ p.label }}
+        </button>
+      </div>
+
+      <!-- Custom range inputs -->
+      <div v-if="activePreset === 'custom'" class="flex items-center gap-2">
+        <input
+          type="date"
+          :value="earningsRange.start"
+          class="px-3 py-2 text-sm border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary-container"
+          @input="onCustomStart"
+        />
+        <span class="text-zinc-400">to</span>
+        <input
+          type="date"
+          :value="earningsRange.end"
+          class="px-3 py-2 text-sm border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary-container"
+          @input="onCustomEnd"
+        />
+      </div>
+
+      <p class="text-sm text-on-surface-variant">
+        <span class="material-symbols-outlined text-sm align-middle mr-1">info</span>
+        Filtered by <strong>travel date</strong>
+      </p>
+    </div>
+
     <!-- Summary KPIs -->
     <section class="grid grid-cols-2 lg:grid-cols-4 gap-6">
       <DashboardKpiCard label="Total Revenue" :value="totals.revenue" format="currency" />
@@ -79,12 +118,48 @@
 </template>
 
 <script setup lang="ts">
-import type { ActivityBooking } from '~/types'
+import type { ActivityBooking, DateRange } from '~/types'
 
-const { range } = useDateRange()
 const { affiliate, commissionRate } = useAffiliate()
 const { fetchBookings, summarizeByMonth } = useEarnings()
 const { formatDate } = useFormatDate()
+
+// Earnings has its own date range (not the global one)
+const activePreset = ref('current_month')
+
+const presets = [
+  { value: 'current_month', label: 'Current Month' },
+  { value: 'last_month', label: 'Last Month' },
+  { value: 'next_month', label: 'Next Month' },
+  { value: 'custom', label: 'Custom' },
+]
+
+function getMonthRange(offset: number): DateRange {
+  const now = new Date()
+  const start = new Date(now.getFullYear(), now.getMonth() + offset, 1)
+  const end = new Date(now.getFullYear(), now.getMonth() + offset + 1, 0)
+  return {
+    start: start.toISOString().split('T')[0],
+    end: end.toISOString().split('T')[0],
+  }
+}
+
+const earningsRange = ref<DateRange>(getMonthRange(0))
+
+function selectPreset(preset: string) {
+  activePreset.value = preset
+  if (preset === 'current_month') earningsRange.value = getMonthRange(0)
+  else if (preset === 'last_month') earningsRange.value = getMonthRange(-1)
+  else if (preset === 'next_month') earningsRange.value = getMonthRange(1)
+}
+
+function onCustomStart(e: Event) {
+  earningsRange.value = { ...earningsRange.value, start: (e.target as HTMLInputElement).value }
+}
+
+function onCustomEnd(e: Event) {
+  earningsRange.value = { ...earningsRange.value, end: (e.target as HTMLInputElement).value }
+}
 
 const bookings = ref<ActivityBooking[]>([])
 const monthlySummary = computed(() => summarizeByMonth(bookings.value))
@@ -108,8 +183,8 @@ function formatMonth(ym: string) {
 async function loadData() {
   const aid = affiliate.value?.affiliate_id
   if (!aid) return
-  bookings.value = await fetchBookings(range.value, aid)
+  bookings.value = await fetchBookings(earningsRange.value, aid)
 }
 
-watch([range, () => affiliate.value?.affiliate_id], loadData, { immediate: true })
+watch([earningsRange, () => affiliate.value?.affiliate_id], loadData, { immediate: true, deep: true })
 </script>
