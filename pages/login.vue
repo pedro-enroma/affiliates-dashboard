@@ -1,11 +1,11 @@
 <template>
   <div>
     <NuxtLayout name="auth">
-      <h2 class="text-xl font-bold text-on-surface font-headline mb-6">Sign in to your account</h2>
+      <h2 class="text-xl font-bold text-on-surface font-headline mb-6">{{ $t('login.sign_in') }}</h2>
 
       <form @submit.prevent="handleLogin" class="space-y-4">
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Email</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('login.email') }}</label>
           <input
             v-model="email"
             type="email"
@@ -16,7 +16,7 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">Password</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-on-surface-variant mb-1">{{ $t('login.password') }}</label>
           <input
             v-model="password"
             type="password"
@@ -33,13 +33,13 @@
           :disabled="loading"
           class="w-full py-2.5 bg-primary text-on-primary rounded-xl font-bold text-sm hover:opacity-90 disabled:opacity-50 transition-all"
         >
-          {{ loading ? 'Signing in...' : 'Sign in' }}
+          {{ loading ? $t('login.signing_in') : $t('login.sign_in_btn') }}
         </button>
       </form>
 
       <div class="mt-4 text-center">
         <NuxtLink to="/forgot-password" class="text-sm text-primary font-semibold hover:underline">
-          Forgot your password?
+          {{ $t('login.forgot_password') }}
         </NuxtLink>
       </div>
     </NuxtLayout>
