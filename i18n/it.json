@@ -1,0 +1,174 @@
+{
+  "brand": "EnRoma.com",
+  "brand_sub_affiliate": "Portale Affiliati",
+  "brand_sub_admin": "Pannello di Amministrazione",
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "traffic": "Traffico",
+    "earnings": "Guadagni",
+    "campaigns": "Campagne",
+    "settings": "Impostazioni",
+    "affiliates": "Affiliati",
+    "sign_out": "Disconnetti",
+    "new_campaign": "Nuova Campagna"
+  },
+
+  "topbar": {
+    "search_placeholder": "Cerca campagne...",
+    "no_notifications": "Nessuna nuova notifica"
+  },
+
+  "date_picker": {
+    "last_7_days": "Ultimi 7 giorni",
+    "last_30_days": "Ultimi 30 giorni",
+    "this_month": "Questo mese",
+    "last_quarter": "Ultimo trimestre",
+    "custom_range": "Intervallo personalizzato"
+  },
+
+  "dashboard": {
+    "sessions": "Sessioni",
+    "bookings": "Prenotazioni",
+    "revenue": "Ricavi",
+    "commission": "Commissione",
+    "conversion_rate": "Tasso di Conversione",
+    "affiliates": "Affiliati",
+    "traffic_over_time": "Traffico nel Tempo",
+    "comparing_sessions_users": "Confronto Sessioni e Utenti",
+    "sessions_label": "Sessioni",
+    "users_label": "Utenti",
+    "no_traffic_data": "Nessun dato sul traffico disponibile",
+    "recent_bookings": "Prenotazioni Recenti",
+    "no_bookings": "Nessuna prenotazione ancora",
+    "performance_over_time": "Prestazioni nel Tempo",
+    "revenue_trends": "Andamento dei ricavi per il periodo selezionato",
+    "no_revenue_data": "Nessun dato sui ricavi disponibile",
+    "top_destination": "Destinazione Principale",
+    "most_profitable": "La tua campagna più redditizia di questo mese con un tasso di conversione del {rate}%.",
+    "campaign_health": "Stato della Campagna",
+    "view_campaign_details": "Visualizza Dettagli Campagna",
+    "no_campaign_data": "Nessun dato sulla campagna disponibile",
+    "top_campaigns": "Campagne con le Migliori Prestazioni",
+    "export_report": "Esporta Report",
+    "campaign_name": "Nome Campagna",
+    "traffic_source": "Fonte di Traffico",
+    "click_through": "Click",
+    "status": "Stato",
+    "active": "Attivo",
+    "pending": "In Attesa",
+    "inactive": "Inattivo",
+    "no_campaigns_data": "Nessun dato sulla campagna disponibile",
+    "load_more": "Carica Altre Campagne"
+  },
+
+  "bookings": {
+    "booking_id": "ID Prenotazione",
+    "travel_date": "Data di Viaggio",
+    "booking_date": "Data di Prenotazione",
+    "tour_name": "Nome del Tour",
+    "price_eur": "Prezzo (EUR)",
+    "campaign": "Campagna",
+    "status": "Stato",
+    "confirmed": "Confermato",
+    "cancelled": "Annullato"
+  },
+
+  "traffic_page": {
+    "top_countries": "Principali Paesi",
+    "total_sessions": "{count} sessioni totali",
+    "no_country_data": "Nessun dato per paese",
+    "devices": "Dispositivi",
+    "no_device_data": "Nessun dato sui dispositivi",
+    "daily_breakdown": "Riepilogo Giornaliero",
+    "traffic_date": "Data Traffico",
+    "users": "Utenti",
+    "new_users": "Nuovi Utenti",
+    "page_views": "Visualizzazioni Pagina"
+  },
+
+  "earnings_page": {
+    "total_revenue": "Ricavi Totali",
+    "total_commission": "Commissione Totale",
+    "commission_rate": "Tasso di Commissione",
+    "current_month": "Mese Corrente",
+    "last_month": "Mese Scorso",
+    "next_month": "Mese Prossimo",
+    "custom": "Personalizzato",
+    "filtered_by_travel_date": "Filtrato per data di viaggio",
+    "monthly_summary": "Riepilogo Mensile",
+    "month": "Mese",
+    "tour": "Tour",
+    "price": "Prezzo",
+    "bookings_count": "Prenotazioni ({count})"
+  },
+
+  "campaigns_page": {
+    "affiliate_link": "Link Affiliato",
+    "copy": "Copia",
+    "delete": "Elimina",
+    "no_campaigns": "Nessuna campagna ancora",
+    "create_first": "Crea la tua prima campagna",
+    "create_campaign": "Crea Campagna",
+    "campaign_name": "Nome Campagna",
+    "campaign_name_placeholder": "es., Post Blog Roma Estate",
+    "source": "Fonte (utm_source)",
+    "source_placeholder": "es., miosito.com, instagram, youtube",
+    "source_help": "Sito web o piattaforma dove verrà mostrato il link.",
+    "destination_product": "Prodotto di Destinazione",
+    "selected_product": "Prodotto Selezionato",
+    "select_product": "Seleziona un prodotto dalla griglia →",
+    "utm_parameters": "Parametri UTM",
+    "generated_link": "Link Generato",
+    "cancel": "Annulla",
+    "creating": "Creazione in corso..."
+  },
+
+  "settings_page": {
+    "profile": "Profilo",
+    "display_name": "Nome Visualizzato",
+    "website_url": "URL del Sito Web",
+    "bio": "Biografia",
+    "bio_placeholder": "Raccontaci di te...",
+    "save_profile": "Salva Profilo",
+    "saving": "Salvataggio...",
+    "profile_updated": "Profilo aggiornato",
+    "change_password": "Cambia Password",
+    "new_password": "Nuova Password",
+    "confirm_password": "Conferma Password",
+    "update_password": "Aggiorna Password",
+    "updating": "Aggiornamento...",
+    "password_updated": "Password aggiornata",
+    "passwords_no_match": "Le password non corrispondono",
+    "account_info": "Informazioni Account",
+    "affiliate_id": "affiliate_id",
+    "email": "Email",
+    "member_since": "Membro dal"
+  },
+
+  "login": {
+    "sign_in": "Accedi al tuo account",
+    "email": "Email",
+    "password": "Password",
+    "sign_in_btn": "Accedi",
+    "signing_in": "Accesso in corso...",
+    "forgot_password": "Hai dimenticato la password?"
+  },
+
+  "admin": {
+    "admin_dashboard": "Dashboard Amministratore",
+    "aggregated_metrics": "Metriche aggregate di tutti gli affiliati.",
+    "invite_affiliate": "Invita Affiliato",
+    "edit": "Modifica",
+    "affiliate_name": "Nome Affiliato",
+    "affiliate_id": "affiliate_id",
+    "email": "Email",
+    "commission_pct": "Commissione %",
+    "no_affiliates": "Nessun affiliato ancora. Invita il tuo primo affiliato per iniziare.",
+    "back_to_affiliates": "Torna agli Affiliati",
+    "invite_modal_title": "Invita Affiliato",
+    "edit_modal_title": "Modifica Affiliato",
+    "send_invite": "Invia Invito",
+    "save_changes": "Salva Modifiche"
+  }
+}

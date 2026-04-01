@@ -176,6 +176,22 @@ CREATE POLICY "admin_read_all_demographics" ON affiliate_traffic_demographics
     EXISTS (SELECT 1 FROM admins WHERE user_id = auth.uid())
   );
 
+-- 9. ga4_sync_log (audit log for GA4 sync jobs)
+CREATE TABLE IF NOT EXISTS ga4_sync_log (
+  id SERIAL PRIMARY KEY,
+  sync_type TEXT NOT NULL,
+  date_synced DATE NOT NULL,
+  rows_upserted INTEGER DEFAULT 0,
+  duration_ms INTEGER DEFAULT 0,
+  error TEXT,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+-- Also add unique constraints needed for upserts
+ALTER TABLE affiliate_daily_traffic ADD CONSTRAINT IF NOT EXISTS uq_traffic UNIQUE (affiliate_id, campaign, date);
+ALTER TABLE affiliate_daily_events ADD CONSTRAINT IF NOT EXISTS uq_events UNIQUE (affiliate_id, campaign, date, event_name);
+ALTER TABLE affiliate_traffic_demographics ADD CONSTRAINT IF NOT EXISTS uq_demographics UNIQUE (affiliate_id, date, dimension_type, dimension_value);
+
 -- ============================================================
 -- NOTE: activity_bookings stays on the OLD Supabase project
 -- (ydnvqephejbcvlfzjzej). No changes needed there.

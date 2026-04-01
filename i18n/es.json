@@ -1,0 +1,174 @@
+{
+  "brand": "EnRoma.com",
+  "brand_sub_affiliate": "Portal de Afiliados",
+  "brand_sub_admin": "Panel de Administración",
+
+  "nav": {
+    "dashboard": "Panel",
+    "traffic": "Tráfico",
+    "earnings": "Ganancias",
+    "campaigns": "Campañas",
+    "settings": "Configuración",
+    "affiliates": "Afiliados",
+    "sign_out": "Cerrar sesión",
+    "new_campaign": "Nueva Campaña"
+  },
+
+  "topbar": {
+    "search_placeholder": "Buscar campañas...",
+    "no_notifications": "No hay nuevas notificaciones"
+  },
+
+  "date_picker": {
+    "last_7_days": "Últimos 7 días",
+    "last_30_days": "Últimos 30 días",
+    "this_month": "Este mes",
+    "last_quarter": "Último trimestre",
+    "custom_range": "Rango personalizado"
+  },
+
+  "dashboard": {
+    "sessions": "Sesiones",
+    "bookings": "Reservas",
+    "revenue": "Ingresos",
+    "commission": "Comisión",
+    "conversion_rate": "Tasa de Conversión",
+    "affiliates": "Afiliados",
+    "traffic_over_time": "Tráfico a lo Largo del Tiempo",
+    "comparing_sessions_users": "Comparación de Sesiones y Usuarios",
+    "sessions_label": "Sesiones",
+    "users_label": "Usuarios",
+    "no_traffic_data": "No hay datos de tráfico disponibles",
+    "recent_bookings": "Reservas Recientes",
+    "no_bookings": "Aún no hay reservas",
+    "performance_over_time": "Rendimiento a lo Largo del Tiempo",
+    "revenue_trends": "Tendencias de ingresos para el período seleccionado",
+    "no_revenue_data": "No hay datos de ingresos disponibles",
+    "top_destination": "Destino Principal",
+    "most_profitable": "Tu campaña más rentable este mes con una tasa de conversión del {rate}%.",
+    "campaign_health": "Estado de la Campaña",
+    "view_campaign_details": "Ver Detalles de la Campaña",
+    "no_campaign_data": "No hay datos de campaña disponibles",
+    "top_campaigns": "Campañas con Mejor Rendimiento",
+    "export_report": "Exportar Informe",
+    "campaign_name": "Nombre de Campaña",
+    "traffic_source": "Fuente de Tráfico",
+    "click_through": "Clics",
+    "status": "Estado",
+    "active": "Activo",
+    "pending": "Pendiente",
+    "inactive": "Inactivo",
+    "no_campaigns_data": "No hay datos de campaña disponibles",
+    "load_more": "Cargar Más Campañas"
+  },
+
+  "bookings": {
+    "booking_id": "ID de Reserva",
+    "travel_date": "Fecha de Viaje",
+    "booking_date": "Fecha de Reserva",
+    "tour_name": "Nombre del Tour",
+    "price_eur": "Precio (EUR)",
+    "campaign": "Campaña",
+    "status": "Estado",
+    "confirmed": "Confirmado",
+    "cancelled": "Cancelado"
+  },
+
+  "traffic_page": {
+    "top_countries": "Principales Países",
+    "total_sessions": "{count} sesiones en total",
+    "no_country_data": "No hay datos de país",
+    "devices": "Dispositivos",
+    "no_device_data": "No hay datos de dispositivo",
+    "daily_breakdown": "Desglose Diario",
+    "traffic_date": "Fecha de Tráfico",
+    "users": "Usuarios",
+    "new_users": "Nuevos Usuarios",
+    "page_views": "Páginas Vistas"
+  },
+
+  "earnings_page": {
+    "total_revenue": "Ingresos Totales",
+    "total_commission": "Comisión Total",
+    "commission_rate": "Tasa de Comisión",
+    "current_month": "Mes Actual",
+    "last_month": "Mes Pasado",
+    "next_month": "Mes Siguiente",
+    "custom": "Personalizado",
+    "filtered_by_travel_date": "Filtrado por fecha de viaje",
+    "monthly_summary": "Resumen Mensual",
+    "month": "Mes",
+    "tour": "Tour",
+    "price": "Precio",
+    "bookings_count": "Reservas ({count})"
+  },
+
+  "campaigns_page": {
+    "affiliate_link": "Enlace de Afiliado",
+    "copy": "Copiar",
+    "delete": "Eliminar",
+    "no_campaigns": "Aún no hay campañas",
+    "create_first": "Crea tu primera campaña",
+    "create_campaign": "Crear Campaña",
+    "campaign_name": "Nombre de Campaña",
+    "campaign_name_placeholder": "ej., Post de Blog Roma Verano",
+    "source": "Fuente (utm_source)",
+    "source_placeholder": "ej., miblog.com, instagram, youtube",
+    "source_help": "Sitio web o plataforma donde se mostrará el enlace.",
+    "destination_product": "Producto de Destino",
+    "selected_product": "Producto Seleccionado",
+    "select_product": "Selecciona un producto de la cuadrícula →",
+    "utm_parameters": "Parámetros UTM",
+    "generated_link": "Enlace Generado",
+    "cancel": "Cancelar",
+    "creating": "Creando..."
+  },
+
+  "settings_page": {
+    "profile": "Perfil",
+    "display_name": "Nombre Visible",
+    "website_url": "URL del Sitio Web",
+    "bio": "Biografía",
+    "bio_placeholder": "Cuéntanos sobre ti...",
+    "save_profile": "Guardar Perfil",
+    "saving": "Guardando...",
+    "profile_updated": "Perfil actualizado",
+    "change_password": "Cambiar Contraseña",
+    "new_password": "Nueva Contraseña",
+    "confirm_password": "Confirmar Contraseña",
+    "update_password": "Actualizar Contraseña",
+    "updating": "Actualizando...",
+    "password_updated": "Contraseña actualizada",
+    "passwords_no_match": "Las contraseñas no coinciden",
+    "account_info": "Información de Cuenta",
+    "affiliate_id": "affiliate_id",
+    "email": "Correo Electrónico",
+    "member_since": "Miembro desde"
+  },
+
+  "login": {
+    "sign_in": "Inicia sesión en tu cuenta",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "sign_in_btn": "Iniciar sesión",
+    "signing_in": "Iniciando sesión...",
+    "forgot_password": "¿Olvidaste tu contraseña?"
+  },
+
+  "admin": {
+    "admin_dashboard": "Panel de Administración",
+    "aggregated_metrics": "Métricas agregadas de todos los afiliados.",
+    "invite_affiliate": "Invitar Afiliado",
+    "edit": "Editar",
+    "affiliate_name": "Nombre del Afiliado",
+    "affiliate_id": "affiliate_id",
+    "email": "Correo Electrónico",
+    "commission_pct": "Comisión %",
+    "no_affiliates": "Aún no hay afiliados. Invita a tu primer afiliado para comenzar.",
+    "back_to_affiliates": "Volver a Afiliados",
+    "invite_modal_title": "Invitar Afiliado",
+    "edit_modal_title": "Editar Afiliado",
+    "send_invite": "Enviar Invitación",
+    "save_changes": "Guardar Cambios"
+  }
+}

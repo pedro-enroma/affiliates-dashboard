@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-01-01',
-  modules: ['@nuxtjs/supabase', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/supabase', '@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
 
   supabase: {
     redirectOptions: {
@@ -9,6 +9,22 @@ export default defineNuxtConfig({
       include: undefined,
       exclude: ['/forgot-password', '/reset-password'],
       cookieRedirect: false,
+    },
+  },
+
+  i18n: {
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'es', name: 'Español', file: 'es.json' },
+      { code: 'it', name: 'Italiano', file: 'it.json' },
+    ],
+    defaultLocale: 'en',
+    langDir: 'i18n/',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_lang',
+      fallbackLocale: 'en',
     },
   },
 
@@ -27,7 +43,7 @@ export default defineNuxtConfig({
 
   app: {
     head: {
-      title: 'NUMAtours Affiliate Portal',
+      title: 'EnRoma.com Affiliate Portal',
       meta: [
         { name: 'description', content: 'Track your traffic, bookings, and commissions' },
       ],

@@ -1,0 +1,174 @@
+{
+  "brand": "EnRoma.com",
+  "brand_sub_affiliate": "Affiliate Portal",
+  "brand_sub_admin": "Admin Panel",
+
+  "nav": {
+    "dashboard": "Dashboard",
+    "traffic": "Traffic",
+    "earnings": "Earnings",
+    "campaigns": "Campaigns",
+    "settings": "Settings",
+    "affiliates": "Affiliates",
+    "sign_out": "Sign out",
+    "new_campaign": "New Campaign"
+  },
+
+  "topbar": {
+    "search_placeholder": "Search campaigns...",
+    "no_notifications": "No new notifications"
+  },
+
+  "date_picker": {
+    "last_7_days": "Last 7 days",
+    "last_30_days": "Last 30 days",
+    "this_month": "This month",
+    "last_quarter": "Last quarter",
+    "custom_range": "Custom range"
+  },
+
+  "dashboard": {
+    "sessions": "Sessions",
+    "bookings": "Bookings",
+    "revenue": "Revenue",
+    "commission": "Commission",
+    "conversion_rate": "Conversion Rate",
+    "affiliates": "Affiliates",
+    "traffic_over_time": "Traffic Over Time",
+    "comparing_sessions_users": "Comparing Sessions and Users",
+    "sessions_label": "Sessions",
+    "users_label": "Users",
+    "no_traffic_data": "No traffic data available",
+    "recent_bookings": "Recent Bookings",
+    "no_bookings": "No bookings yet",
+    "performance_over_time": "Performance Over Time",
+    "revenue_trends": "Revenue trends for the selected period",
+    "no_revenue_data": "No revenue data available",
+    "top_destination": "Top Destination",
+    "most_profitable": "Your most profitable campaign this month with a {rate}% conversion rate.",
+    "campaign_health": "Campaign Health",
+    "view_campaign_details": "View Campaign Details",
+    "no_campaign_data": "No campaign data available",
+    "top_campaigns": "Top Performing Campaigns",
+    "export_report": "Export Report",
+    "campaign_name": "Campaign Name",
+    "traffic_source": "Traffic Source",
+    "click_through": "Click-Through",
+    "status": "Status",
+    "active": "Active",
+    "pending": "Pending",
+    "inactive": "Inactive",
+    "no_campaigns_data": "No campaign data available",
+    "load_more": "Load More Campaigns"
+  },
+
+  "bookings": {
+    "booking_id": "Booking ID",
+    "travel_date": "Travel Date",
+    "booking_date": "Booking Date",
+    "tour_name": "Tour Name",
+    "price_eur": "Price (EUR)",
+    "campaign": "Campaign",
+    "status": "Status",
+    "confirmed": "Confirmed",
+    "cancelled": "Cancelled"
+  },
+
+  "traffic_page": {
+    "top_countries": "Top Countries",
+    "total_sessions": "{count} total sessions",
+    "no_country_data": "No country data",
+    "devices": "Devices",
+    "no_device_data": "No device data",
+    "daily_breakdown": "Daily Breakdown",
+    "traffic_date": "Traffic Date",
+    "users": "Users",
+    "new_users": "New Users",
+    "page_views": "Page Views"
+  },
+
+  "earnings_page": {
+    "total_revenue": "Total Revenue",
+    "total_commission": "Total Commission",
+    "commission_rate": "Commission Rate",
+    "current_month": "Current Month",
+    "last_month": "Last Month",
+    "next_month": "Next Month",
+    "custom": "Custom",
+    "filtered_by_travel_date": "Filtered by travel date",
+    "monthly_summary": "Monthly Summary",
+    "month": "Month",
+    "tour": "Tour",
+    "price": "Price",
+    "bookings_count": "Bookings ({count})"
+  },
+
+  "campaigns_page": {
+    "affiliate_link": "Affiliate Link",
+    "copy": "Copy",
+    "delete": "Delete",
+    "no_campaigns": "No campaigns yet",
+    "create_first": "Create your first campaign",
+    "create_campaign": "Create Campaign",
+    "campaign_name": "Campaign Name",
+    "campaign_name_placeholder": "e.g., Summer Rome Blog Post",
+    "source": "Source (utm_source)",
+    "source_placeholder": "e.g., myblog.com, instagram, youtube",
+    "source_help": "Website or platform where the link will be shown.",
+    "destination_product": "Destination Product",
+    "selected_product": "Selected Product",
+    "select_product": "Select a product from the grid →",
+    "utm_parameters": "UTM Parameters",
+    "generated_link": "Generated Link",
+    "cancel": "Cancel",
+    "creating": "Creating..."
+  },
+
+  "settings_page": {
+    "profile": "Profile",
+    "display_name": "Display Name",
+    "website_url": "Website URL",
+    "bio": "Bio",
+    "bio_placeholder": "Tell us about yourself...",
+    "save_profile": "Save Profile",
+    "saving": "Saving...",
+    "profile_updated": "Profile updated",
+    "change_password": "Change Password",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password",
+    "update_password": "Update Password",
+    "updating": "Updating...",
+    "password_updated": "Password updated",
+    "passwords_no_match": "Passwords do not match",
+    "account_info": "Account Info",
+    "affiliate_id": "Affiliate ID",
+    "email": "Email",
+    "member_since": "Member since"
+  },
+
+  "login": {
+    "sign_in": "Sign in to your account",
+    "email": "Email",
+    "password": "Password",
+    "sign_in_btn": "Sign in",
+    "signing_in": "Signing in...",
+    "forgot_password": "Forgot your password?"
+  },
+
+  "admin": {
+    "admin_dashboard": "Admin Dashboard",
+    "aggregated_metrics": "Aggregated metrics across all affiliates.",
+    "invite_affiliate": "Invite Affiliate",
+    "edit": "Edit",
+    "affiliate_name": "Affiliate Name",
+    "affiliate_id": "Affiliate ID",
+    "email": "Email",
+    "commission_pct": "Commission %",
+    "no_affiliates": "No affiliates yet. Invite your first affiliate to get started.",
+    "back_to_affiliates": "Back to Affiliates",
+    "invite_modal_title": "Invite Affiliate",
+    "edit_modal_title": "Edit Affiliate",
+    "send_invite": "Send Invite",
+    "save_changes": "Save Changes"
+  }
+}
